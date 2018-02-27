@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="48dp">
+
+    <FrameLayout
+        android:id="@+id/fl_transfer"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp">
+
+        <Button
+            android:id="@+id/btn_expand"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/detail_sel_expand"
+            android:gravity="center"
+            android:textColor="#000000"
+            android:textSize="8sp"
+            android:visibility="visible" />
+
+        <Button
+            android:id="@+id/btn_collapse"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/detail_sel_collapse"
+            android:gravity="center"
+            android:textColor="#000000"
+            android:textSize="8sp"
+            android:visibility="gone" />
+
+    </FrameLayout>
+
+    <View
+        android:id="@+id/vertical_line"
+        style="@style/detail_vertical_line"
+        android:layout_marginLeft="26dp"
+        android:layout_marginStart="26dp"
+        android:layout_toEndOf="@id/fl_transfer"
+        android:layout_toRightOf="@id/fl_transfer" />
+
+    <TextView
+        android:id="@+id/tv_tansfer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_toEndOf="@id/vertical_line"
+        android:layout_toRightOf="@id/vertical_line"
+        android:textColor="#000000"
+        android:textSize="16sp" />
+
+</RelativeLayout>

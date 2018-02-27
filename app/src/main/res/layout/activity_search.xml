@@ -1,0 +1,115 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.dsunny.activity.SearchActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tb_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/actionbar_background"
+        android:theme="@style/Base.ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:fitsSystemWindows="true">
+
+    </android.support.v7.widget.Toolbar>
+
+    <RelativeLayout
+        android:padding="@dimen/activity_padding"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <View
+            android:id="@+id/line_start"
+            style="@style/dividing_line"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="2dp" />
+
+        <Button
+            android:id="@+id/btn_select_from_station"
+            style="@style/search_btn_select"
+            android:layout_below="@id/line_start"
+            android:text="起点站" />
+
+        <EditText
+            android:id="@+id/et_from_station"
+            style="@style/search_et_input"
+            android:layout_below="@id/line_start"
+            android:layout_toEndOf="@id/btn_select_from_station"
+            android:layout_toRightOf="@id/btn_select_from_station"
+            android:hint="请输入车站名或点击起点站选择车站"
+            android:imeOptions="actionNext" />
+
+        <Button
+            android:id="@+id/btn_select_to_station"
+            style="@style/search_to_btn_select"
+            android:layout_below="@id/btn_select_from_station"
+            android:layout_marginTop="1dp"
+            android:text="终点站" />
+
+        <EditText
+            android:id="@+id/et_to_station"
+            style="@style/search_to_et_input"
+            android:layout_below="@id/et_from_station"
+            android:layout_marginTop="1dp"
+            android:layout_toEndOf="@id/btn_select_to_station"
+            android:layout_toRightOf="@id/btn_select_to_station"
+            android:hint="请输入车站名或点击终点站选择车站"
+            android:imeOptions="actionSearch" />
+
+        <Button
+            android:id="@+id/btn_search"
+            style="@style/search_btn_search"
+            android:layout_below="@id/et_to_station"
+            android:layout_marginTop="1dp"
+            android:text="检索" />
+
+        <View
+            android:id="@+id/line_end"
+            style="@style/dividing_line"
+            android:layout_below="@id/btn_search"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="4dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/line_end"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/iv_picture"
+                android:layout_width="260dp"
+                android:layout_height="160dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/dreamsunny"/>
+
+            <TextView
+                android:id="@+id/tv_content"
+                android:layout_width="260dp"
+                android:layout_height="wrap_content"
+                android:paddingTop="4dp"
+                android:text="Nobody's ever loved anybody as much as I love you."
+                android:textColor="#000000"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_note"
+                android:layout_width="260dp"
+                android:layout_height="wrap_content"
+                android:paddingTop="4dp"
+                android:text="我对你的爱无人能及。"
+                android:textColor="#000000"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+
+</LinearLayout>

@@ -1,0 +1,106 @@
+<resources>
+
+    <!-- 系统主题 -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    </style>
+
+    <!--<style name="SubwayTheme" parent="Base.Theme.AppCompat.Light.DarkActionBar">-->
+        <!--<item name="android:actionBarStyle">@style/SubwayActionBarStyle</item>-->
+        <!--<item name="actionBarStyle">@style/SubwayActionBarStyle</item>-->
+    <!--</style>-->
+
+    <style name="SubwayTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:actionBarStyle">@style/SubwayActionBarStyle</item>
+        <item name="actionBarStyle">@style/SubwayActionBarStyle</item>
+    </style>
+
+    <style name="SubwayActionBarStyle" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@color/actionbar_background</item>
+        <item name="background">@color/actionbar_background</item>
+    </style>
+
+    <!-- 分割线 -->
+    <style name="dividing_line">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">#51AB72</item>
+    </style>
+
+    <!-- 搜索页选择车站按钮 -->
+    <style name="search_btn_select">
+        <item name="android:layout_width">84dp</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:background">@drawable/search_bg_btn_select</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+    <!-- 搜索页选择车站按钮 -->
+    <style name="search_to_btn_select">
+        <item name="android:layout_width">84dp</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:background">@drawable/search_to_bg_btn_select</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+    <!-- 搜索页输入框 -->
+    <style name="search_et_input">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:background">@drawable/search_sel_et_input</item>
+        <item name="android:inputType">text</item>
+        <item name="android:maxLength">10</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:textColorHint">#B8B8B8</item>
+        <item name="android:padding">2dp</item>
+    </style>
+
+    <!-- 搜索页输入框 -->
+    <style name="search_to_et_input">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:background">@drawable/search_sel_to_et_input</item>
+        <item name="android:inputType">text</item>
+        <item name="android:maxLength">10</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:textColorHint">#B8B8B8</item>
+        <item name="android:padding">2dp</item>
+    </style>
+
+    <!-- 搜索页搜索按钮 -->
+    <style name="search_btn_search">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:background">@drawable/search_sel_btn_search</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+    <style name="SubwayTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <!-- 分割线 -->
+    <style name="detail_horizontal_line">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">4dp</item>
+        <item name="android:background">#46A667</item>
+    </style>
+    <style name="detail_vertical_line">
+        <item name="android:layout_width">4dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">#666666</item>
+    </style>
+
+    <style name="SubwayTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="SubwayTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+</resources>
