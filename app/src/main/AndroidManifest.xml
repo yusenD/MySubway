@@ -13,7 +13,7 @@
     <application
         android:name="com.dsunny.common.SubwayApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_subway"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/SubwayTheme" >
         <meta-data
