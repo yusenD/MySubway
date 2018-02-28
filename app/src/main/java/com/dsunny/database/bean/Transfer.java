@@ -5,7 +5,7 @@ package com.dsunny.database.bean;
  */
 public class Transfer {
 
-    public String FromSID;// 起始车站
+    public String FromSID;// 起始车站，车站ID以小号为准
     public String ToSID;// 到达车站
     public String LID;// 所在线路
     public int Distance;// 距离

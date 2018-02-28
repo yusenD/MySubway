@@ -31,12 +31,12 @@ public class SubwayData {
     // T3航站楼
     public static final String STATION_ID_T3 = "9904";
 
-    // 14号线A段
+    // 14号线西段设为A段
     public static final String LINE_14A = "14A";
-    // 14号线A段起点与终点站ID
-    public static final String[] LINE_14A_IDS = {"1401", "1407"};
     // 14号线B段
     public static final String LINE_14B = "14B";
+    // 14号线A段起点与终点站ID
+    public static final String[] LINE_14A_IDS = {"1401", "1407"};
     // 14号线B段起点与终点站ID
     public static final String[] LINE_14B_IDS = {"1413", "1437"};
     // 西局
@@ -66,11 +66,6 @@ public class SubwayData {
             "9号线", "10号线", "13号线", "14号线", "15号线", "八通线", "昌平线",
             "亦庄线", "大兴线", "房山线", "机场线"
     };
-    // LINES_TRANSFER数组的边
-    public static final String[] LINE_EDGES = {
-            "01", "02", "04", "05", "06", "07", "08", "09", "10",
-            "13", "14A", "14B", "15", "94", "95", "96", "97", "98", "99"
-    };
     // 线路之间最大换乘次数
     public static final int LINE_MAX_TRANSFER_TIMES = 4;
     // 线路间换乘表(14号线分为AB段)，arr[i][j]表示从i号线到j号线至少需要换乘arr[i][j]-1次
@@ -95,11 +90,16 @@ public class SubwayData {
             {2, 3, 2, 3, 2, 2, 3, 1, 2, 3, 2, 3, 4, 3, 4, 3, 3, 0, 3},
             {2, 1, 2, 2, 2, 3, 2, 2, 1, 1, 2, 2, 2, 3, 2, 2, 3, 3, 0}
     };
+    // 换乘表数组的边
+    public static final String[] LINE_EDGES = {
+            "01", "02", "04", "05", "06", "07", "08", "09", "10",
+            "13", "14A", "14B", "15", "94", "95", "96", "97", "98", "99"
+    };
 
     // 机场线平均速度
     public static final int AIRPORT_LINE_SPEED = 1024;
     // 其余线路平均速度
     public static final int OTHER_LINE_SPEED = 512;
     // 换乘站换乘时间
-    public static final int TRANSFER_MINUTE = 6;
+    public static final int TRANSFER_MINUTE = 5;
 }

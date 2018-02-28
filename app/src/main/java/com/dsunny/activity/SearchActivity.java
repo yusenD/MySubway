@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.PaintDrawable;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +20,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toolbar;
 
 import com.alibaba.fastjson.JSON;
 import com.dsunny.activity.base.AppBaseActivity;
@@ -59,17 +59,21 @@ public class SearchActivity extends AppBaseActivity implements View.OnClickListe
     private static final String MSG_FROM_STATION_NOT_EXIST = "起点站不可乘坐";
     private static final String MSG_TO_STATION_NOT_EXIST = "终点站不可乘坐";
 
+    //弹出小窗口
     private PopupWindow mPopWin;
+
+    //ListView
     private LineAdapter mLineAdapter;
     private StationAdapter mStationAdapter;
     private List<String> mLstLineNames;
     private List<String> mLstStationNames;
     private List<String> mLstStationNamesAndAbbrs;
 
+    //
     private StationDao mStationDao;
     private ISubwayMap mMultiSubwayMap;
 
-    private android.support.v7.widget.Toolbar mTbSearch;
+    private Toolbar mTbSearch;
     private Button mBtnSelectFromStation, mBtnSelectToStation, mBtnSearch;
     private EditText mEtFromStation, mEtToStation;
 
@@ -170,7 +174,7 @@ public class SearchActivity extends AppBaseActivity implements View.OnClickListe
                 showPopupWindow(mBtnSelectToStation);
                 break;
             case R.id.btn_search:
-                searchTransferDetail();
+//                searchTransferDetail();
                 break;
             default:
                 break;

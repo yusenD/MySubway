@@ -7,6 +7,7 @@ import android.view.View;
  * ListView适配器中保存view
  */
 public class ViewHolder {
+    //用稀疏数组来节省内存
     private final SparseArray<View> mViews;
     private View mConvertView;
 

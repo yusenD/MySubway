@@ -5,8 +5,8 @@
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
 
-    <color name="search_btn_search_pressed">#F36611</color>
-    <color name="search_btn_search_normal">#F38511</color>
+    <color name="search_btn_search_pressed">#007EB3</color>
+    <color name="search_btn_search_normal">#0097D5</color>
     <color name="search_popwin_line_selected">#51AB72</color>
     <color name="search_popwin_line_nomal">#FFFFFF</color>
 

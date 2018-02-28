@@ -13,9 +13,7 @@ public class SubwayDB {
     private SQLiteDatabase db;
     private static SubwayDB subway;
 
-    /**
-     * 单例模式
-     */
+    //单例模式，保证只有一个db
     private SubwayDB() {
         db = SQLiteDatabase.openOrCreateDatabase(AppConstants.SUBWAY_DB_FILE_PATH, null);
     }
