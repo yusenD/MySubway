@@ -10,21 +10,6 @@ import java.util.List;
 public class StationDao extends BaseDao {
 
     /**
-     * 获取指定车站ID的车站名
-     *
-     * @param sid 车站ID
-     * @return 车站名
-     */
-    public String getStationName(String sid) {
-        StringBuilder sql = new StringBuilder();
-        sql.append(" SELECT Name ");
-        sql.append(" FROM STATION ");
-        sql.append(" WHERE ID = '").append(sid).append("' ");
-
-        return queryString(sql.toString());
-    }
-
-    /**
      * 判断指定车站名是否存在
      *
      * @param sname 车站名
@@ -38,6 +23,21 @@ public class StationDao extends BaseDao {
         sql.append(" AND State = '1' ");
 
         return queryCount(sql.toString()) != 0;
+    }
+
+    /**
+     * 获取指定车站ID的车站名
+     *
+     * @param sid 车站ID
+     * @return 车站名
+     */
+    public String getStationName(String sid) {
+        StringBuilder sql = new StringBuilder();
+        sql.append(" SELECT Name ");
+        sql.append(" FROM STATION ");
+        sql.append(" WHERE ID = '").append(sid).append("' ");
+
+        return queryString(sql.toString());
     }
 
     /**
@@ -208,7 +208,6 @@ public class StationDao extends BaseDao {
             sql.append(" AND State = '1' ");
             sql.append(" ORDER BY ID DESC ");
         }
-
         return queryListString(sql.toString());
     }
 

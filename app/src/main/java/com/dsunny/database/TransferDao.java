@@ -38,6 +38,7 @@ public class TransferDao extends BaseDao {
         for (String lid : lids) {
             sql.append(" '").append(lid).append("', ");
         }
+
         sql.append(" '') ");
 
         return queryListBean(sql.toString(), Transfer.class);

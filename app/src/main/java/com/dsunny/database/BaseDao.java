@@ -22,20 +22,20 @@ public class BaseDao {
     }
 
     /**
-     * 检索Count
+     * 查询Count
      *
      * @param sql SQL文
-     * @return 检索结果(Count)
+     * @return 查询结果(Count)
      */
     protected int queryCount(String sql) {
         return queryInt(sql);
     }
 
     /**
-     * 检索Int值
+     * 查询Int值
      *
      * @param sql SQL文
-     * @return 检索结果(Int)
+     * @return 查询结果(Int)
      */
     protected int queryInt(String sql) {
         int result = -1;
@@ -53,10 +53,10 @@ public class BaseDao {
     }
 
     /**
-     * 检索String值
+     * 查询String值
      *
      * @param sql SQL文
-     * @return 检索结果(String)
+     * @return 查询结果(String)
      */
     protected String queryString(String sql) {
         String result = "";
@@ -74,12 +74,12 @@ public class BaseDao {
     }
 
     /**
-     * 检索Bean
+     * 查询Bean
      *
      * @param sql    SQL文
      * @param tClass Bean的实体类
      * @param <T>    Bean的实体类
-     * @return 检索结果(Bean)
+     * @return 查询结果(Bean)
      */
     protected <T> T queryBean(String sql, Class<T> tClass) {
         T t = null;
@@ -113,10 +113,10 @@ public class BaseDao {
     }
 
     /**
-     * 检索List<Integer>
+     * 查询List<Integer>
      *
      * @param sql SQL文
-     * @return 检索结果(List<Integer>)
+     * @return 查询结果(List<Integer>)
      */
     protected List<Integer> queryListInt(String sql) {
         List<Integer> results = new ArrayList<>();
@@ -134,10 +134,10 @@ public class BaseDao {
     }
 
     /**
-     * 检索List<String>
+     * 查询List<String>
      *
      * @param sql SQL文
-     * @return 检索结果(List<String>)
+     * @return 查询结果(List<String>)
      */
     protected List<String> queryListString(String sql) {
         List<String> results = new ArrayList<>();
@@ -155,12 +155,12 @@ public class BaseDao {
     }
 
     /**
-     * 检索List<Bean>
+     * 查询List<Bean>
      *
      * @param sql    SQL文
      * @param tClass Bean的实体类
      * @param <T>    Bean的实体类
-     * @return 检索List<Bean>
+     * @return 查询List<Bean>
      */
     protected <T> List<T> queryListBean(String sql, Class<T> tClass) {
         List<T> results = new ArrayList<>();

@@ -31,10 +31,10 @@ public class SubwayDB {
     }
 
     /**
-     * 检索SQL
+     * 查询SQL
      *
      * @param sql SQL文
-     * @return 检索结果(Cursor)
+     * @return 查询结果(Cursor)
      */
     public Cursor query(String sql) {
         return db.rawQuery(sql, null);
