@@ -174,7 +174,7 @@ public class SearchActivity extends AppBaseActivity implements View.OnClickListe
                 showPopupWindow(mBtnSelectToStation);
                 break;
             case R.id.btn_search:
-//                searchTransferDetail();
+                searchTransferDetail();
                 break;
             default:
                 break;

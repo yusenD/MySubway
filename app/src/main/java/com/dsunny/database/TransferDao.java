@@ -44,16 +44,4 @@ public class TransferDao extends BaseDao {
         return queryListBean(sql.toString(), Transfer.class);
     }
 
-    /**
-     * 获取TRANSFER表的换乘信息(所有线路)
-     *
-     * @return 所有线路的换乘信息
-     */
-    public List<Transfer> getAllTransfers() {
-        StringBuilder sql = new StringBuilder();
-        sql.append(" SELECT * ");
-        sql.append(" FROM TRANSFER ");
-
-        return queryListBean(sql.toString(), Transfer.class);
-    }
 }

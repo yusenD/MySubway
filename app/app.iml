@@ -82,7 +82,6 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.1/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/design/22.2.1/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.1/jars" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.tencent.bugly/crashreport/2.6.6.1/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental-safeguard" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/instant-run-support" />
@@ -100,7 +99,6 @@
     <orderEntry type="jdk" jdkName="Android API 22 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="com.android.support:support-annotations:22.2.1@jar" level="project" />
-    <orderEntry type="library" exported="" name="com.tencent.bugly:crashreport-2.6.6.1" level="project" />
     <orderEntry type="library" exported="" name="com.android.support:support-v4-22.2.1" level="project" />
     <orderEntry type="library" exported="" name="com.alibaba:fastjson:1.2.46@jar" level="project" />
     <orderEntry type="library" exported="" name="com.android.support:appcompat-v7-22.2.1" level="project" />

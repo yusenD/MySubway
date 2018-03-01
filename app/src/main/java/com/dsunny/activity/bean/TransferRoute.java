@@ -28,4 +28,5 @@ public class TransferRoute implements Serializable {
                 ", lstTransferSubRoute=" + lstTransferSubRoute +
                 '}';
     }
+
 }

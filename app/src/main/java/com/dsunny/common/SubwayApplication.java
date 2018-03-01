@@ -5,7 +5,6 @@ import android.app.Application;
 import com.dsunny.util.AppUtil;
 import com.dsunny.util.SharedPreferencesUtil;
 import com.infrastructure.cache.CacheManager;
-import com.tencent.bugly.crashreport.CrashReport;
 
 import java.io.File;
 
@@ -30,8 +29,7 @@ public class SubwayApplication extends Application {
         initDataBase();
         // 初始化缓存目录
         CacheManager.getInstance().initCacheDir();
-        // Bugly初始化
-        CrashReport.initCrashReport(getApplicationContext(), "900032862", false);
+
     }
 
     /**
@@ -46,10 +44,11 @@ public class SubwayApplication extends Application {
             if (file.exists()) {
                 file.delete();
             }
-            // 拷贝新数据库
+            // 拷贝新的数据库
             AppUtil.copyDBFile(this);
             // 将VersionCode写入本地SharedPreferences
             SharedPreferencesUtil.saveAppVersionCode(appVersionCode);
         }
     }
+    
 }

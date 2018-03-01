@@ -17,8 +17,8 @@
         android:label="@string/app_name"
         android:theme="@style/SubwayTheme" >
         <meta-data
-            android:name="UMENG_APPKEY"
-            android:value="569c3f24e0f55a997a0000e8" />
+        android:name="UMENG_APPKEY"
+        android:value="569c3f24e0f55a997a0000e8" />
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="Channel ID" />

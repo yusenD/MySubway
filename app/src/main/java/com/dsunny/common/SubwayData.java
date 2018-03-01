@@ -16,9 +16,16 @@ public class SubwayData {
     public static final String LINE_14 = "14";
     // 八通线
     public static final String LINE_94 = "94";
+    //昌平线
+    public static final String LINE_95 = "95";
+    //亦庄线
+    public static final String LINE_96 = "96";
+    //大兴线
+    public static final String LINE_97 = "97";
+    //房山线
+    public static final String LINE_98 = "98";
     // 机场线
     public static final String LINE_99 = "99";
-
     // 机场线
     public static final String LINE_JICHANGXIAN = "机场线";
 

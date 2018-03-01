@@ -635,6 +635,7 @@ public abstract class BaseSubwayMap implements ISubwayMap {
             final String toLineStationId = mStationDao.getLineStationId(lineId, subRoute.toStationName);
             // 途径车站
             if (SubwayUtil.isCircularLine(lineId)) {
+                //得到换线较短的路径
                 List<String> lstStationNames1 = mStationDao.getIntervalStationNames(fromLineStationId, toLineStationId);
                 List<String> lstStationNames2 = mStationDao.getIntervalStationNamesInCircularLine(fromLineStationId, toLineStationId);
                 if (lstStationNames1.size() < lstStationNames2.size()) {

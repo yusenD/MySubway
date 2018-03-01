@@ -31,4 +31,5 @@ public class SharedPreferencesUtil {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(SubwayApplication.getInstance());
         return sp.getInt(KEY_APP_VERSION_CODE, 0);
     }
+
 }

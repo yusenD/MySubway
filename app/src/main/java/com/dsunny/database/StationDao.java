@@ -1,5 +1,7 @@
 package com.dsunny.database;
 
+import android.util.Log;
+
 import com.dsunny.database.bean.Station;
 
 import java.util.List;
@@ -116,43 +118,6 @@ public class StationDao extends BaseDao {
     }
 
     /**
-     * 获取指定车站ID的所有车站ID
-     *
-     * @param sid 车站ID
-     * @return 车站ID集合
-     */
-    public List<String> getStationIdsByStationId(String sid){
-        StringBuilder sql = new StringBuilder();
-        sql.append(" SELECT ID ");
-        sql.append(" FROM STATION ");
-        sql.append(" WHERE Name = ( ");
-        sql.append("     SELECT Name ");
-        sql.append("     FROM STATION ");
-        sql.append("     WHERE ID = '").append(sid).append("' ");
-        sql.append(" ) ");
-        sql.append(" AND State = '1' ");
-        sql.append(" ORDER BY ID ASC ");
-
-        return queryListString(sql.toString());
-    }
-
-    /**
-     * 获取指定车站名的所有线路ID(14号线分为AB段，本期不用)
-     *
-     * @param sname 车站名
-     * @return 线路ID集合
-     */
-    public List<String> getLineIdsOfSameStation(String sname){
-        StringBuilder sql = new StringBuilder();
-        sql.append(" SELECT SUBSTR(ID, 1, 2) ");
-        sql.append(" FROM STATION ");
-        sql.append(" WHERE Name = '").append(sname).append("' ");
-        sql.append(" AND State == '1' ");
-
-        return queryListString(sql.toString());
-    }
-
-    /**
      * 获取指定线路的所有车站名
      *
      * @param lid 线路id
@@ -257,7 +222,7 @@ public class StationDao extends BaseDao {
             sql.append("     ORDER BY ID ASC ");
             sql.append(" ) ");
         }
-
         return queryListString(sql.toString());
     }
+
 }
