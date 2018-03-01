@@ -1,8 +1,8 @@
 package com.dsunny.engine.base;
 
-import com.dsunny.activity.bean.TransferDetail;
-import com.dsunny.activity.bean.TransferRoute;
-import com.dsunny.activity.bean.TransferSubRoute;
+import com.dsunny.bean.TransferDetail;
+import com.dsunny.bean.TransferRoute;
+import com.dsunny.bean.TransferSubRoute;
 import com.dsunny.common.SubwayData;
 import com.dsunny.database.LineDao;
 import com.dsunny.database.StationDao;
@@ -46,10 +46,10 @@ public abstract class BaseSubwayMap implements ISubwayMap {
      * 临接表的头部，指向车站(sid)能够到达的车站集合(Item)
      */
     protected static class Head {
-        public String sid;
-        public List<Item> lstItems;
+        String sid;
+        List<Item> lstItems;
 
-        public Head(String sid) {
+        Head(String sid) {
             this.sid = sid;
             this.lstItems = new ArrayList<>();
         }
@@ -61,17 +61,18 @@ public abstract class BaseSubwayMap implements ISubwayMap {
                     ", lstItems=" + lstItems +
                     '}';
         }
+
     }
 
     /**
-     * 临接表的项，记录车站ID，车站所在线路，站间距离
+     * 临接表的项，记录车站ID(sid)，车站所在线路ID(lid)和站间距离
      */
     protected static class Item {
-        public String sid;
-        public String lid;
-        public int distance;
+        String sid;
+        String lid;
+        int distance;
 
-        public Item(String sid, String lid, int distance) {
+        Item(String sid, String lid, int distance) {
             this.sid = sid;
             this.lid = lid;
             this.distance = distance;
@@ -91,9 +92,9 @@ public abstract class BaseSubwayMap implements ISubwayMap {
      * 搜索换乘路线详细信息
      */
     protected class LineMap {
-        public Stack<Integer> mStack;// 存储当前遍历路径
-        public List<String[]> mLstTransferRouteLineIds;// 14号线分为AB段
-        public boolean[] isVisited;// 表示线路是否被访问过
+        Stack<Integer> mStack;// 存储当前遍历路径
+        List<String[]> mLstTransferRouteLineIds;// 换乘路线ID
+        boolean[] isVisited;// 表示线路是否被访问过
 
         public LineMap() {
             mStack = new Stack<>();
@@ -102,7 +103,7 @@ public abstract class BaseSubwayMap implements ISubwayMap {
         }
 
         /**
-         * 换乘路线详细信息集合，例如：9号线-1号线-2号线
+         * 换乘路线详细信息集合，例如：09 01 02 ===》 9号线-1号线-2号线
          *
          * @return 换乘路线详细信息
          */

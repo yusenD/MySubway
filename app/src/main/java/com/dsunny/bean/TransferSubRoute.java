@@ -1,4 +1,4 @@
-package com.dsunny.activity.bean;
+package com.dsunny.bean;
 
 import java.io.Serializable;
 import java.util.List;
@@ -28,4 +28,5 @@ public class TransferSubRoute implements Serializable {
                 ", lstStationNames=" + lstStationNames +
                 '}';
     }
+
 }

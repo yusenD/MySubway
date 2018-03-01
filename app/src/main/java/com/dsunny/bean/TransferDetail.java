@@ -1,4 +1,4 @@
-package com.dsunny.activity.bean;
+package com.dsunny.bean;
 
 import java.io.Serializable;
 import java.util.List;
@@ -22,4 +22,5 @@ public class TransferDetail implements Serializable {
                 ", lstTransferRoute=" + lstTransferRoute +
                 '}';
     }
+
 }

@@ -50,5 +50,5 @@ public class SubwayApplication extends Application {
             SharedPreferencesUtil.saveAppVersionCode(appVersionCode);
         }
     }
-    
+
 }
