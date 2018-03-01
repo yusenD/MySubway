@@ -1,8 +1,8 @@
 package com.dsunny.engine.base;
 
-import com.dsunny.bean.TransferDetail;
-import com.dsunny.bean.TransferRoute;
-import com.dsunny.bean.TransferSubRoute;
+import com.dsunny.activity.bean.TransferDetail;
+import com.dsunny.activity.bean.TransferRoute;
+import com.dsunny.activity.bean.TransferSubRoute;
 import com.dsunny.common.SubwayData;
 import com.dsunny.database.LineDao;
 import com.dsunny.database.StationDao;

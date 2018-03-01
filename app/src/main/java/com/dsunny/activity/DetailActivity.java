@@ -11,9 +11,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dsunny.activity.base.AppBaseActivity;
-import com.dsunny.bean.TransferDetail;
-import com.dsunny.bean.TransferRoute;
-import com.dsunny.bean.TransferSubRoute;
+import com.dsunny.activity.bean.TransferDetail;
+import com.dsunny.activity.bean.TransferRoute;
+import com.dsunny.activity.bean.TransferSubRoute;
 import com.dsunny.common.AppConstants;
 import com.dsunny.common.SubwayData;
 import com.dsunny.subway.R;

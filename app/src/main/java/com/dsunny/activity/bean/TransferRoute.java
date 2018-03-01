@@ -1,4 +1,4 @@
-package com.dsunny.bean;
+package com.dsunny.activity.bean;
 
 import java.io.Serializable;
 import java.util.List;

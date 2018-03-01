@@ -23,7 +23,7 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.dsunny.activity.base.AppBaseActivity;
-import com.dsunny.bean.TransferDetail;
+import com.dsunny.activity.bean.TransferDetail;
 import com.dsunny.common.SubwayData;
 import com.dsunny.common.ViewHolder;
 import com.dsunny.database.StationDao;

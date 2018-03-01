@@ -1,6 +1,6 @@
 package com.dsunny.engine.interfaces;
 
-import com.dsunny.bean.TransferDetail;
+import com.dsunny.activity.bean.TransferDetail;
 
 /**
  * 地铁图抽象接口
