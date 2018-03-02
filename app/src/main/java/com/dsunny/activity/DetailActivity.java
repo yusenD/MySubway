@@ -117,6 +117,7 @@ public class DetailActivity extends AppBaseActivity implements View.OnClickListe
     }
 
     /**
+     * 显示线路信息
      * @param index 线路n
      * @param tr    线路路径
      * @return head视图
@@ -141,6 +142,7 @@ public class DetailActivity extends AppBaseActivity implements View.OnClickListe
     }
 
     /**
+     * 显示起点车站
      * @param stationName 车站
      * @return start视图
      */
@@ -156,6 +158,7 @@ public class DetailActivity extends AppBaseActivity implements View.OnClickListe
     }
 
     /**
+     * 显示中间车站
      * @param date        时间
      * @param stationName 车站
      * @return middle视图
@@ -172,6 +175,7 @@ public class DetailActivity extends AppBaseActivity implements View.OnClickListe
     }
 
     /**
+     * 显示终点车站
      * @param stationName 车站
      * @param tr          线路路径
      * @return end视图
@@ -188,6 +192,7 @@ public class DetailActivity extends AppBaseActivity implements View.OnClickListe
     }
 
     /**
+     * 显示换乘车站
      * @param tsr 换乘自路线
      * @return transfer视图
      */
@@ -216,6 +221,7 @@ public class DetailActivity extends AppBaseActivity implements View.OnClickListe
     }
 
     /**
+     * 显示换乘中间车站 小视图
      * @param lstStationNames 车站名
      * @return station视图
      */

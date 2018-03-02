@@ -11,6 +11,7 @@
         android:layout_marginBottom="8dp" />
 
     <TextView
+        android:text="线路1"
         android:id="@+id/tv_route_index"
         android:layout_width="60dp"
         android:layout_height="24dp"
@@ -26,6 +27,7 @@
 
     <TextView
         android:id="@+id/tv_timeframe"
+        android:text="xx分发→xx分到"
         android:layout_width="wrap_content"
         android:layout_height="24dp"
         android:layout_below="@id/head_line"
@@ -39,6 +41,7 @@
 
     <TextView
         android:id="@+id/tv_minute"
+        android:text="40分"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@id/tv_timeframe"
@@ -52,6 +55,7 @@
 
     <TextView
         android:id="@+id/tv_transfer_times"
+        android:text="换乘：2次"
         android:layout_width="wrap_content"
         android:layout_height="24dp"
         android:layout_alignParentEnd="true"
@@ -65,6 +69,7 @@
 
     <TextView
         android:id="@+id/tv_price"
+        android:text="票价：5元"
         android:layout_width="wrap_content"
         android:layout_height="24dp"
         android:layout_alignLeft="@id/tv_timeframe"
@@ -77,6 +82,7 @@
 
     <TextView
         android:id="@+id/tv_distance"
+        android:text="5km"
         android:layout_width="wrap_content"
         android:layout_height="24dp"
         android:layout_alignParentEnd="true"

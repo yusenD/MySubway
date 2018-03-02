@@ -1,5 +1,7 @@
 package com.dsunny.engine.base;
 
+import android.util.Log;
+
 import com.dsunny.activity.bean.TransferDetail;
 import com.dsunny.activity.bean.TransferRoute;
 import com.dsunny.activity.bean.TransferSubRoute;
@@ -118,6 +120,7 @@ public abstract class BaseSubwayMap implements ISubwayMap {
          */
         public void searchTransferRouteLineIds(final List<String[]> lstFromToLineIds) {
             for (String[] lids : lstFromToLineIds) {
+//                Log.d("lids---", lids[0] + " : " + lids[1] + lids.length);
                 int from = getIndexOfLinesTransferEdges(lids[0]);
                 int to = getIndexOfLinesTransferEdges(lids[1]);
                 DFS(from, to);
@@ -127,8 +130,9 @@ public abstract class BaseSubwayMap implements ISubwayMap {
         /**
          * 深度优先搜索
          *
-         * @param from 起点线路在LINES_TRANSFER_EDGES数组的下标，14号线分为AB段
-         * @param to   终点线路在LINES_TRANSFER_EDGES数组的下标，14号线分为AB段
+         * @param from 起点线路在LINES_TRANSFER_EDGES数组的下标
+         * @param to   终点线路在LINES_TRANSFER_EDGES数组的下标
+         *             需要注意14号线分为AB段
          */
         private void DFS(final int from, final int to) {
             if (SubwayData.LINE_TRANSFERS[from][to] == 1) {
@@ -155,6 +159,7 @@ public abstract class BaseSubwayMap implements ISubwayMap {
                 mStack.pop();
             }
         }
+        
     }
 
     /**
@@ -175,7 +180,7 @@ public abstract class BaseSubwayMap implements ISubwayMap {
         List<String> lstToStationIds = mStationDao.getStationIdsByStationName(toStationName);
         LogUtil.d("lstToStationIds = " + lstToStationIds);
 
-        // 起点终点线路集合
+        // 起点终点线路集合,注意判断14号线AB段和机场线
         List<String[]> lstFromToLineIds = getFromToLineIds(lstFromStationIds, lstToStationIds);
         if (LogUtil.DEBUG) {
             LogUtil.d("lstFromToLineIds = " + AppUtil.ListArrayAsString(lstFromToLineIds));
