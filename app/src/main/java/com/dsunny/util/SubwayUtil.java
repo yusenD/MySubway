@@ -70,6 +70,7 @@ public class SubwayUtil {
 
     /**
      * 计算乘车价格
+     * 计费规则：起步6公里内每人次3元，6-12公里每人次4元，12-32公里每10公里加1元，32公里以上每20公里加1元
      *
      * @param airportLineDistance 机场线乘车距离
      * @param otherLinesDistance  其他线路乘车距离

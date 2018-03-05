@@ -21,6 +21,7 @@ import com.dsunny.util.AppUtil;
 import com.dsunny.util.FormatUtil;
 import com.dsunny.util.SubwayUtil;
 import com.dsunny.util.DateUtil;
+import com.infrastructure.util.LogUtil;
 
 import java.util.Date;
 import java.util.List;
@@ -44,6 +45,8 @@ public class DetailActivity extends AppBaseActivity implements View.OnClickListe
     protected void initVariables() {
         mNow = new Date();
         mTransferDetail = (TransferDetail) getIntent().getSerializableExtra(AppConstants.KEY_TRANSFER_DETAIL);
+//        mTransferDetail = SubwayData.getTestTranferDetail();
+        LogUtil.d("Test",mTransferDetail.toString());
         final TransferRoute tr = mTransferDetail.lstTransferRoute.get(0);
         mTicketPrice = SubwayUtil.getTransferPrice(tr.airportLineDistance, tr.otherLineDistance);
     }
@@ -73,6 +76,7 @@ public class DetailActivity extends AppBaseActivity implements View.OnClickListe
     public void onClick(View v) {
         View stationView = (View) v.getTag();
         FrameLayout flTransfer = (FrameLayout) v.getParent();
+        //展开中间换乘车站View
         if (stationView.isShown()) {
             flTransfer.findViewById(R.id.btn_expand).setVisibility(View.VISIBLE);
             flTransfer.findViewById(R.id.btn_collapse).setVisibility(View.GONE);
@@ -91,7 +95,7 @@ public class DetailActivity extends AppBaseActivity implements View.OnClickListe
         int routeIndex = 1;
         for (TransferRoute tr : mTransferDetail.lstTransferRoute) {
             llDetail.addView(createHeadView(routeIndex++, tr));
-            llDetail.addView(createBlankView());
+            llDetail.addView(createSpaceView());
             int subRouteIndex = 0;
             Date date = mNow;
             for (TransferSubRoute tsr : tr.lstTransferSubRoute) {
@@ -112,7 +116,7 @@ public class DetailActivity extends AppBaseActivity implements View.OnClickListe
                 date = DateUtil.addMinute(date, minute + SubwayData.TRANSFER_MINUTE * subRouteIndex++);
             }
             llDetail.addView(createEndView(mTransferDetail.toStationName, tr));
-            llDetail.addView(createBlankView());
+            llDetail.addView(createSpaceView());
         }
     }
 
@@ -131,7 +135,7 @@ public class DetailActivity extends AppBaseActivity implements View.OnClickListe
         TextView tvPrice = findAppViewById(view, R.id.tv_price);
         TextView tvDistance = findAppViewById(view, R.id.tv_distance);
 
-        tvRouteIndex.setText(getString(R.string.detail_route_index, index));
+        tvRouteIndex.setText(getString(R.string.detail_route_index,index));
         tvTimeframe.setText(getString(R.string.detail_timeframe, DateUtil.getDateTime(mNow), DateUtil.getDateTime(DateUtil.addMinute(mNow, tr.elapsedTime))));
         tvElapsedTime.setText(getString(R.string.detail_minute, tr.elapsedTime));
         tvTransferTimes.setText(getString(R.string.detail_transfer_times, tr.lstTransferSubRoute.size() - 1));
@@ -244,7 +248,7 @@ public class DetailActivity extends AppBaseActivity implements View.OnClickListe
     /**
      * @return 空白View
      */
-    private View createBlankView() {
+    private View createSpaceView() {
         View view = new View(this);
         view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, AppUtil.dp2px(BLANK_VIEW_HEIGHT_DP)));
         return view;

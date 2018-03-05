@@ -69,7 +69,6 @@ public class SearchActivity extends AppBaseActivity implements View.OnClickListe
     private List<String> mLstStationNames;
     private List<String> mLstStationNamesAndAbbrs;
 
-    //
     private StationDao mStationDao;
     private ISubwayMap mMultiSubwayMap;
 
@@ -99,6 +98,7 @@ public class SearchActivity extends AppBaseActivity implements View.OnClickListe
         List<Station> lstStations = mStationDao.getAllStationNamesAndAbbrs();
         String preAbbr = "";
         String curAbbr;
+        //把车站按首字母添加，如：A xx,xxx | B xx,xxx
         for (Station station : lstStations) {
             curAbbr = station.Abbr.substring(0, 1);
             if (!curAbbr.equals(preAbbr)) {
@@ -108,7 +108,7 @@ public class SearchActivity extends AppBaseActivity implements View.OnClickListe
             mLstStationNamesAndAbbrs.add(station.Name);
         }
         mLstStationNames.addAll(mLstStationNamesAndAbbrs);
-
+        //wifi连接的话就加载大图
         isWifiConnected = AppUtil.isWifiConnected(this);
     }
 
@@ -145,6 +145,7 @@ public class SearchActivity extends AppBaseActivity implements View.OnClickListe
         }
     }
 
+    //加载每日一句数据
     @Override
     protected void loadData() {
         final AppRequestCallback callback = new AppRequestCallback() {
@@ -180,7 +181,10 @@ public class SearchActivity extends AppBaseActivity implements View.OnClickListe
                 break;
         }
     }
-
+    /**
+     * 检测输入法，如果点击“搜索”，也进行搜索
+     *
+     */
     @Override
     public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
         switch (actionId) {
@@ -193,6 +197,9 @@ public class SearchActivity extends AppBaseActivity implements View.OnClickListe
         return false;
     }
 
+    /**
+     * 保存页面搜索的数据
+     */
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putString(KEY_FROM_STATION, mEtFromStation.getText().toString().trim());
@@ -202,8 +209,10 @@ public class SearchActivity extends AppBaseActivity implements View.OnClickListe
 
     /**
      * 验证起点终点车站是否合法
+     * 如果合法就搜索然后跳转到线路详情页
      */
     private void searchTransferDetail() {
+        //一定要用trim删除前后空格！！切记！
         final String fromStationName = mEtFromStation.getText().toString().trim();
         final String toStationName = mEtToStation.getText().toString().trim();
         if (verifyFromToStation(fromStationName, toStationName)) {
@@ -220,6 +229,8 @@ public class SearchActivity extends AppBaseActivity implements View.OnClickListe
      * @param fromStationName 起点站
      * @param toStationName   终点站
      * @return true，合法；false，不合法
+     *
+     * 后修改：如果输入符号等直接不检测
      */
     private boolean verifyFromToStation(final String fromStationName, final String toStationName) {
         if (AppUtil.IsStringEmpty(fromStationName)) {
@@ -243,7 +254,7 @@ public class SearchActivity extends AppBaseActivity implements View.OnClickListe
 
 
     /**
-     * 选择线路车站
+     * 弹出窗口，选择线路车站
      *
      * @param clickButton 选择起点/终点按钮
      */

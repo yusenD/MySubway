@@ -1,5 +1,13 @@
 package com.dsunny.common;
 
+import com.dsunny.activity.bean.TransferDetail;
+import com.dsunny.activity.bean.TransferRoute;
+import com.dsunny.activity.bean.TransferSubRoute;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Subway数据库常量
  */
@@ -67,7 +75,7 @@ public class SubwayData {
             "01", "02", "04", "05", "06", "07", "08", "09", "10",
             "13", "14", "15", "94", "95", "96", "97", "98", "99"
     };
-    // 线路名
+    // 线路ID对应的线路名
     public static final String[] LINE_NAMES = {
             "1号线", "2号线", "4号线", "5号线", "6号线", "7号线", "8号线",
             "9号线", "10号线", "13号线", "14号线", "15号线", "八通线", "昌平线",
@@ -75,6 +83,7 @@ public class SubwayData {
     };
     // 线路之间最大换乘次数
     public static final int LINE_MAX_TRANSFER_TIMES = 4;
+
     // 线路间换乘表(14号线分为AB段)，arr[i][j]表示从i号线到j号线至少需要换乘arr[i][j]-1次
     public static final int[][] LINE_TRANSFERS = {
             {0, 1, 1, 1, 2, 2, 2, 1, 1, 2, 2, 1, 2, 1, 3, 2, 2, 2, 2},
@@ -97,16 +106,59 @@ public class SubwayData {
             {2, 3, 2, 3, 2, 2, 3, 1, 2, 3, 2, 3, 4, 3, 4, 3, 3, 0, 3},
             {2, 1, 2, 2, 2, 3, 2, 2, 1, 1, 2, 2, 2, 3, 2, 2, 3, 3, 0}
     };
+
     // 换乘表数组的边
     public static final String[] LINE_EDGES = {
             "01", "02", "04", "05", "06", "07", "08", "09", "10",
             "13", "14A", "14B", "15", "94", "95", "96", "97", "98", "99"
     };
 
-    // 机场线平均速度
-    public static final int AIRPORT_LINE_SPEED = 1024;
-    // 其余线路平均速度
-    public static final int OTHER_LINE_SPEED = 512;
-    // 换乘站换乘时间
+    // 机场线平均速度 90Km/h
+    public static final int AIRPORT_LINE_SPEED = 1500;
+    // 其余线路平均速度 36km/h
+    public static final int OTHER_LINE_SPEED = 600;
+    // 换乘站换乘时间 5分钟
     public static final int TRANSFER_MINUTE = 5;
+
+    //界面测试用数据，从1号线苹果园到二号线车公庄，转乘车站是复兴门
+    public static TransferDetail getTestTranferDetail(){
+        //途径站点
+        String[] lineOneStationName = {"古城", "八角游乐园", "八宝山", "玉泉路", "五棵松", "万寿路", "公主坟", "军事博物馆", "木樨地", "南礼士路"};
+        String[] lineTwoStationName = {"阜成门"};
+        //换乘子路线
+        TransferSubRoute oneTransferRoute = new TransferSubRoute();
+        oneTransferRoute.fromStationName = "苹果园";
+        oneTransferRoute.toStationName = "复兴门";
+        oneTransferRoute.distance = 8000;
+        oneTransferRoute.lineName = "1号线";
+        oneTransferRoute.direction = "天安门西";
+        oneTransferRoute.lstStationNames = Arrays.asList(lineOneStationName);
+
+        TransferSubRoute twoTransferRoute = new TransferSubRoute();
+        twoTransferRoute.fromStationName = "复兴门";
+        twoTransferRoute.toStationName = "车公庄";
+        twoTransferRoute.distance = 2000;
+        twoTransferRoute.lineName = "2号线";
+        twoTransferRoute.direction = "阜成门";
+        twoTransferRoute.lstStationNames = Arrays.asList(lineTwoStationName);
+        List<TransferSubRoute> totalTransferRoute = new ArrayList<>();
+        totalTransferRoute.add(oneTransferRoute);
+        totalTransferRoute.add(twoTransferRoute);
+        //换乘总路线
+        TransferRoute mTransferRoute = new TransferRoute();
+        mTransferRoute.fromStationName = "苹果园";
+        mTransferRoute.toStationName = "车公庄";
+        mTransferRoute.airportLineDistance = 0;
+        mTransferRoute.otherLineDistance = 10000;
+        mTransferRoute.elapsedTime = 30;
+        mTransferRoute.lstTransferSubRoute = totalTransferRoute;
+        //换乘信息
+        TransferDetail mTransferDetail = new TransferDetail();
+        mTransferDetail.fromStationName = "苹果园";
+        mTransferDetail.toStationName = "车公庄";
+        mTransferDetail.lstTransferRoute = new ArrayList<>();
+        mTransferDetail.lstTransferRoute.add(mTransferRoute);
+        return mTransferDetail;
+    }
+
 }

@@ -1,17 +1,12 @@
 package com.dsunny.engine;
 
-import com.alibaba.fastjson.JSON;
-import com.dsunny.network.mockdata.MockBaseInfo;
-import com.dsunny.util.AppUtil;
 import com.infrastructure.activity.BaseActivity;
 import com.infrastructure.request.Request;
 import com.infrastructure.request.RequestCallback;
 import com.infrastructure.request.RequestParameter;
 import com.infrastructure.request.RequestThreadPool;
-import com.infrastructure.request.Response;
 import com.infrastructure.request.URLData;
 import com.infrastructure.request.UrlConfigManager;
-import com.infrastructure.util.LogUtil;
 
 import java.util.List;
 
@@ -66,26 +61,8 @@ public class AppHttpRequest {
             if (forceUpdate) {
                 urlData.setExpires(0);
             }
-            if (!AppUtil.IsStringEmpty(urlData.getMockClass())) {
-                try {
-                    MockBaseInfo mockInfo = (MockBaseInfo) Class.forName(urlData.getMockClass()).newInstance();
-                    String strResponse = mockInfo.getJsonData();
-                    final Response responseInJson = JSON.parseObject(strResponse, Response.class);
-                    LogUtil.d(responseInJson);
-                    if (callback != null) {
-                        if (responseInJson.isError()) {
-                            callback.onFail(responseInJson.getErrorMessage());
-                        } else {
-                            callback.onSuccess(responseInJson.getResult());
-                        }
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            } else {
-                Request request = activity.getRequestManager().createRequest(urlData, params, callback);
-                RequestThreadPool.getInstance().execute(request);
-            }
+            Request request = activity.getRequestManager().createRequest(urlData, params, callback);
+            RequestThreadPool.getInstance().execute(request);
         } else {
             throw new IllegalArgumentException("urlData is null!");
         }
