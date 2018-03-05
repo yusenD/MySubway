@@ -230,7 +230,7 @@ public class SearchActivity extends AppBaseActivity implements View.OnClickListe
      * @param toStationName   终点站
      * @return true，合法；false，不合法
      *
-     * 后修改：如果输入符号等直接不检测
+     * 后修改：如果输入符号等
      */
     private boolean verifyFromToStation(final String fromStationName, final String toStationName) {
         if (AppUtil.IsStringEmpty(fromStationName)) {
@@ -421,6 +421,7 @@ public class SearchActivity extends AppBaseActivity implements View.OnClickListe
                 convertView = LayoutInflater.from(mContext).inflate(R.layout.item_search_stations, null);
             }
 
+            //选择全部展示时字母需要变色
             if (mStationNames.get(position).length() == 1) {
                 convertView.setBackgroundColor(Color.LTGRAY);
             } else {

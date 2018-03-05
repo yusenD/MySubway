@@ -1,7 +1,5 @@
 package com.dsunny.engine.base;
 
-import android.util.Log;
-
 import com.dsunny.activity.bean.TransferDetail;
 import com.dsunny.activity.bean.TransferRoute;
 import com.dsunny.activity.bean.TransferSubRoute;
@@ -254,6 +252,7 @@ public abstract class BaseSubwayMap implements ISubwayMap {
                 if (SubwayData.LINE_TRANSFERS[i][j] < mMinTransferTimes) {
                     lstFromToLineIds.clear();
                     lstFromToLineIds.add(new String[]{fromLineId, toLineId});
+                    LogUtil.d("transfer--",fromLineId + "--" + toLineId);
                     mMinTransferTimes = SubwayData.LINE_TRANSFERS[i][j];
                 } else if (SubwayData.LINE_TRANSFERS[i][j] == mMinTransferTimes) {
                     lstFromToLineIds.add(new String[]{fromLineId, toLineId});

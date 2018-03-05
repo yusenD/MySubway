@@ -1,5 +1,7 @@
 package com.dsunny.engine;
 
+import android.util.Log;
+
 import com.dsunny.common.SubwayData;
 import com.dsunny.database.bean.Transfer;
 import com.dsunny.engine.base.BaseSubwayMap;
@@ -42,14 +44,21 @@ public class MultiSubwayMap extends BaseSubwayMap {
             } else {
                 // 添加每一条线路ID(from和to所在的线路ID相同)
                 for (String[] fromToLineIds : lstFromToLineIds) {
-                    lstTransferRouteLineIds.add(new String[]{fromToLineIds[0]});
+                    String lineId = fromToLineIds[0];
+                    lstTransferRouteLineIds.add(new String[]{lineId});
+                    // 线路存在环路
+                    if (SubwayUtil.isLineExistLoop(lineId)) {
+                        for (String lid : SubwayUtil.getCrossLineIds(lineId)) {
+                            lstTransferRouteLineIds.add(new String[]{lineId, lid});
+                        }
+                    }
                 }
             }
         } else if (mMinTransferTimes == 1) {
             // 换乘一次，例如：9号线-1号线
             lstTransferRouteLineIds = new ArrayList<>(lstFromToLineIds);
 
-            // 添加起点终点线路换乘一次的共有线路
+            // 添加起点终点线路换乘一次的共有线路，如：09-01-02
             for (String[] fromToLineIds : lstFromToLineIds) {
                 final int from = getIndexOfLinesTransferEdges(fromToLineIds[0]);
                 final int to = getIndexOfLinesTransferEdges(fromToLineIds[1]);
@@ -63,9 +72,10 @@ public class MultiSubwayMap extends BaseSubwayMap {
                         toDirectTransferLineIds.add(SubwayData.LINE_EDGES[i]);
                     }
                 }
-                // 起点和终点换乘一次的共有线路
+                // 起点和终点换乘一次的线路取交集
                 fromDirectTransferLineIds.retainAll(toDirectTransferLineIds);
                 for (String lid : fromDirectTransferLineIds) {
+                    // 需要去除机场线，机场换乘太贵了
                     if (!lid.equals(SubwayData.LINE_99)) {
                         lstTransferRouteLineIds.add(new String[]{fromToLineIds[0], lid, fromToLineIds[1]});
                     }
