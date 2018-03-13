@@ -19,5 +19,8 @@
     <string name="detail_distance">%1$skm</string>
     <string name="detail_station_count">%1$d站</string>
     <string name="detail_tansfer">%1$s・%2$s方向</string>
+    <string name="btn_sort_total_text">综合排序</string>
+    <string name="btn_sort_transfer_text">换乘最少</string>
+    <string name="btn_sort_time_text">用时最少</string>
 
 </resources>

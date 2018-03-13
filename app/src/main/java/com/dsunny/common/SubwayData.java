@@ -81,6 +81,19 @@ public class SubwayData {
             "9号线", "10号线", "13号线", "14号线", "15号线", "八通线", "昌平线",
             "亦庄线", "大兴线", "房山线", "机场线"
     };
+
+    // 线路查询时ID
+    public static final String[] LINE_IDS_SEARSH = {
+            "01", "02", "04", "05", "06", "07", "08", "09", "10",
+            "13", "14", "15", "94", "95", "96", "98"
+    };
+    // 线路ID对应的线路名
+    public static final String[] LINE_NAMES_SEARSH = {
+            "1号线", "2号线", "4号线", "5号线", "6号线", "7号线", "8号线",
+            "9号线", "10号线", "13号线", "14号线", "15号线", "八通线", "昌平线",
+            "亦庄线", "房山线"
+    };
+
     // 线路之间最大换乘次数
     public static final int LINE_MAX_TRANSFER_TIMES = 4;
 
@@ -119,6 +132,13 @@ public class SubwayData {
     public static final int OTHER_LINE_SPEED = 600;
     // 换乘站换乘时间 5分钟
     public static final int TRANSFER_MINUTE = 5;
+
+    //换乘最小排序关键字
+    public static final int TRANSFER_SORT = 0;
+    //综合排序
+    public static final int TOTAL_SORT = 1;
+    //用时最少
+    public static final int TIME_SORT = 2;
 
     //界面测试用数据，从1号线苹果园到二号线车公庄，转乘车站是复兴门
     public static TransferDetail getTestTranferDetail(){

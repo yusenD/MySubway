@@ -17,6 +17,51 @@
 
     </android.support.v7.widget.Toolbar>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="35dp" />
+
+        <Button
+            android:id="@+id/btn_sort_transfer"
+            android:text="@string/btn_sort_transfer_text"
+            android:background="@drawable/btn_sort_unpress"
+            android:layout_weight="1.2"
+            android:layout_width="0dp"
+            android:layout_height="35dp" />
+
+        <Button
+            android:id="@+id/btn_sort_time"
+            android:text="@string/btn_sort_time_text"
+            android:background="@drawable/btn_sort_press"
+            android:textColor="@color/white"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1.2"
+            android:layout_width="0dp"
+            android:layout_height="35dp" />
+
+        <Button
+            android:id="@+id/btn_sort_total"
+            android:text="@string/btn_sort_total_text"
+            android:background="@drawable/btn_sort_unpress"
+            android:layout_weight="1.2"
+            android:layout_width="0dp"
+            android:layout_height="35dp" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="35dp" />
+
+    </LinearLayout>
+
+
     <ScrollView
         android:padding="@dimen/activity_padding"
         android:layout_width="match_parent"

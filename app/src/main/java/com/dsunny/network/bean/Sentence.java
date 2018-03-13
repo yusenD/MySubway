@@ -1,4 +1,4 @@
-package com.dsunny.network.entity;
+package com.dsunny.network.bean;
 
 import java.util.List;
 

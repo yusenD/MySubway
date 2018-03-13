@@ -6,6 +6,7 @@ import com.dsunny.common.SubwayData;
  * 地铁相关工具类
  */
 public class SubwayUtil {
+
     /**
      * 获取指定线路ID的线路名
      *
@@ -129,4 +130,5 @@ public class SubwayUtil {
     public static int getTransferElapsedTime(int airportLineDistance, int otherLineDistance, int transferTimes) {
         return airportLineDistance / SubwayData.AIRPORT_LINE_SPEED + otherLineDistance / SubwayData.OTHER_LINE_SPEED + transferTimes * SubwayData.TRANSFER_MINUTE + 1;
     }
+
 }

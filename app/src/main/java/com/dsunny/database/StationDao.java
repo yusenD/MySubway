@@ -1,7 +1,5 @@
 package com.dsunny.database;
 
-import android.util.Log;
-
 import com.dsunny.database.bean.Station;
 
 import java.util.List;

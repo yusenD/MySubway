@@ -1,8 +1,10 @@
 package com.dsunny.activity;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -21,17 +23,20 @@ import com.dsunny.util.AppUtil;
 import com.dsunny.util.FormatUtil;
 import com.dsunny.util.SubwayUtil;
 import com.dsunny.util.DateUtil;
+import com.infrastructure.activity.BaseActivity;
 import com.infrastructure.util.LogUtil;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
 /**
  * 换乘详情
  */
-public class DetailActivity extends AppBaseActivity implements View.OnClickListener {
+public class DetailActivity extends BaseActivity implements View.OnClickListener {
 
-    private static final int BLANK_VIEW_HEIGHT_DP = 8;
+    private static final int BLANK_VIEW_HEIGHT_DP = 10;
 
     private Date mNow;
     private int mTicketPrice;
@@ -41,11 +46,12 @@ public class DetailActivity extends AppBaseActivity implements View.OnClickListe
 
     private LinearLayout llDetail;
 
+    private Button btnTotal,btnTransfer, btnTime;
+
     @Override
     protected void initVariables() {
         mNow = new Date();
         mTransferDetail = (TransferDetail) getIntent().getSerializableExtra(AppConstants.KEY_TRANSFER_DETAIL);
-//        mTransferDetail = SubwayData.getTestTranferDetail();
         LogUtil.d("Test",mTransferDetail.toString());
         final TransferRoute tr = mTransferDetail.lstTransferRoute.get(0);
         mTicketPrice = SubwayUtil.getTransferPrice(tr.airportLineDistance, tr.otherLineDistance);
@@ -54,12 +60,56 @@ public class DetailActivity extends AppBaseActivity implements View.OnClickListe
     @Override
     protected void initViews(Bundle savedInstanceState) {
         setContentView(R.layout.activity_detail);
+
+        btnTime = findAppViewById(R.id.btn_sort_time);
+        btnTotal = findAppViewById(R.id.btn_sort_total);
+        btnTransfer = findAppViewById(R.id.btn_sort_transfer);
+
+        btnTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reSortTransferLine(SubwayData.TIME_SORT); // 进行排序
+                //设置按钮样式
+                btnTotal.setBackgroundResource(R.drawable.btn_sort_unpress);
+                btnTotal.setTextColor(getResources().getColor(R.color.black));
+                btnTime.setBackgroundResource(R.drawable.btn_sort_press);
+                btnTime.setTextColor(getResources().getColor(R.color.white));
+                btnTransfer.setBackgroundResource(R.drawable.btn_sort_unpress);
+                btnTransfer.setTextColor(getResources().getColor(R.color.black));
+            }
+        });
+        btnTotal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reSortTransferLine(SubwayData.TOTAL_SORT);
+                btnTime.setBackgroundResource(R.drawable.btn_sort_unpress);
+                btnTime.setTextColor(getResources().getColor(R.color.black));
+                btnTotal.setBackgroundResource(R.drawable.btn_sort_press);
+                btnTotal.setTextColor(getResources().getColor(R.color.white));
+                btnTransfer.setBackgroundResource(R.drawable.btn_sort_unpress);
+                btnTransfer.setTextColor(getResources().getColor(R.color.black));
+            }
+        });
+        btnTransfer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reSortTransferLine(SubwayData.TRANSFER_SORT);
+                btnTotal.setBackgroundResource(R.drawable.btn_sort_unpress);
+                btnTotal.setTextColor(getResources().getColor(R.color.black));
+                btnTransfer.setBackgroundResource(R.drawable.btn_sort_press);
+                btnTransfer.setTextColor(getResources().getColor(R.color.white));
+                btnTime.setBackgroundResource(R.drawable.btn_sort_unpress);
+                btnTime.setTextColor(getResources().getColor(R.color.black));
+
+            }
+        });
+
         mTbDetail = findAppViewById(R.id.tb_detail);
         setSupportActionBar(mTbDetail);
         mActionBar = getSupportActionBar();
         if (mActionBar != null) {
             mActionBar.setDisplayHomeAsUpEnabled(true);
-            setActionBarTitle(getString(R.string.detail_title, mTransferDetail.fromStationName, mTransferDetail.toStationName));
+            mActionBar.setTitle(getString(R.string.detail_title, mTransferDetail.fromStationName, mTransferDetail.toStationName));
         }
 
         llDetail = findAppViewById(R.id.ll_detail);
@@ -70,6 +120,19 @@ public class DetailActivity extends AppBaseActivity implements View.OnClickListe
     @Override
     protected void loadData() {
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case android.R.id.home:
+                finish();
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        return true;
     }
 
     @Override
@@ -86,6 +149,18 @@ public class DetailActivity extends AppBaseActivity implements View.OnClickListe
             flTransfer.findViewById(R.id.btn_collapse).setVisibility(View.VISIBLE);
             stationView.setVisibility(View.VISIBLE);
         }
+    }
+
+    /**
+     * 排序
+     *
+     * @param keyword 排序关键字，根据什么排序
+     */
+    public void reSortTransferLine(int keyword) {
+        delView();
+        AppUtil.SubwayMapComp comp = new AppUtil.SubwayMapComp(keyword);
+        Collections.sort(mTransferDetail.lstTransferRoute, comp);
+        addViews();
     }
 
     /**
@@ -118,6 +193,10 @@ public class DetailActivity extends AppBaseActivity implements View.OnClickListe
             llDetail.addView(createEndView(mTransferDetail.toStationName, tr));
             llDetail.addView(createSpaceView());
         }
+    }
+
+    private void delView() {
+        llDetail.removeAllViews();
     }
 
     /**

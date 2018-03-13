@@ -10,10 +10,9 @@ import com.dsunny.subway.R;
 import com.infrastructure.activity.BaseActivity;
 import com.infrastructure.cache.CacheManager;
 import com.infrastructure.request.RequestCallback;
-import com.umeng.analytics.MobclickAgent;
 
 /**
- * 封装业务相关的公用逻辑
+ * 封装
  */
 public abstract class AppBaseActivity extends BaseActivity {
 
@@ -22,13 +21,11 @@ public abstract class AppBaseActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        MobclickAgent.onResume(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        MobclickAgent.onPause(this);
     }
 
     /**
@@ -53,15 +50,7 @@ public abstract class AppBaseActivity extends BaseActivity {
                 mProgressDialog.dismiss();
             }
         }
-    }
 
-    /**
-     * 设置ActionBar标题
-     *
-     * @param title 标题名称
-     */
-    protected void setActionBarTitle(String title) {
-        mActionBar.setTitle(title == null ? "" : title);
     }
 
     /**
@@ -71,16 +60,6 @@ public abstract class AppBaseActivity extends BaseActivity {
      */
     protected void startAppActivity(String activity) {
         startAppActivity(activity, null);
-    }
-
-    /**
-     * 启动Activity
-     *
-     * @param activity    当前Activity
-     * @param requestCode 请求Code
-     */
-    protected void startAppActivityForResult(String activity, int requestCode) {
-        startAppActivityForResult(activity, requestCode, null);
     }
 
     /**
@@ -103,27 +82,6 @@ public abstract class AppBaseActivity extends BaseActivity {
         }
     }
 
-    /**
-     * 启动Activity
-     *
-     * @param activity    当前Activity
-     * @param requestCode 请求Code
-     * @param intent      请求Intent
-     */
-    protected void startAppActivityForResult(String activity, int requestCode, Intent intent) {
-        try {
-            Class activityClass = Class.forName(activity);
-            if (intent == null) {
-                startActivity(new Intent(mContext, activityClass));
-            } else {
-                intent.setClass(mContext, activityClass);
-                startActivityForResult(intent, requestCode);
-            }
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_base, menu);
@@ -134,11 +92,8 @@ public abstract class AppBaseActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
-            case R.id.action_about_me:
-                startAppActivity(AppConstants.ACTIVITY_ABOUT_ME);
-                break;
-            case R.id.action_clear_cache:
-                CacheManager.getInstance().clearAllData();
+            case R.id.action_line:
+                startAppActivity(AppConstants.ACTIVITY_LINE_SEARCH);
                 break;
             case android.R.id.home:
                 finish();

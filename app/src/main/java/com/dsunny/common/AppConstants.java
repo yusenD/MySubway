@@ -14,7 +14,10 @@ public class AppConstants extends BaseConstants {
     // Activity路径
     public static final String ACTIVITY_SEARCH = "com.dsunny.activity.SearchActivity";
     public static final String ACTIVITY_DETAIL = "com.dsunny.activity.DetailActivity";
-    public static final String ACTIVITY_ABOUT_ME = "com.dsunny.activity.AboutMeActivity";
+    public static final String ACTIVITY_LINE_SEARCH = "com.dsunny.activity.LineActivity";
+    public static final String ACTIVITY_LINE_Detail = "com.dsunny.activity.LineDetailActivity";
     // Activity换乘传值
     public static final String KEY_TRANSFER_DETAIL = "transferdetail";
+    //线路ID传值
+    public static final String KEY_LINE_DETAIL = "lid";
 }

@@ -1,4 +1,4 @@
-package com.dsunny.engine.base;
+package com.dsunny.search;
 
 import com.dsunny.activity.bean.TransferDetail;
 import com.dsunny.activity.bean.TransferRoute;
@@ -7,7 +7,7 @@ import com.dsunny.common.SubwayData;
 import com.dsunny.database.LineDao;
 import com.dsunny.database.StationDao;
 import com.dsunny.database.TransferDao;
-import com.dsunny.engine.interfaces.ISubwayMap;
+import com.dsunny.database.bean.Transfer;
 import com.dsunny.util.AppUtil;
 import com.dsunny.util.SubwayUtil;
 import com.infrastructure.util.LogUtil;
@@ -17,22 +17,26 @@ import java.util.List;
 import java.util.Stack;
 
 /**
- * 抽象地铁图基类
+ * 从地铁图上查询两站之间换乘信息(多线路)
+ * 1. 获取所有换乘线路，以此加载地铁图
+ * 2. 计算换乘路径，(A->B, Line, Distance)
+ * 3. 翻译换乘路径，返回查询结果
  */
-public abstract class BaseSubwayMap implements ISubwayMap {
+public class SearchSubwayMap {
 
-    protected List<Head> mLstHeads;//邻接表头部集合
 
-    protected LineDao mLineDao;// 查询线路相关信息
-    protected StationDao mStationDao;// 查询车站相关信息
-    protected TransferDao mTransferDao;// 查询换乘数据信息
+    private List<Head> mLstHeads;//邻接表头部集合
 
-    protected String mFromStationName;// 起点车站名
-    protected String mToStationName;// 终点车站名
+    private LineDao mLineDao;// 查询线路相关信息
+    private StationDao mStationDao;// 查询车站相关信息
+    private TransferDao mTransferDao;// 查询换乘数据信息
 
-    protected int mMinTransferTimes;// 起始到终点线路的最少换乘次数
+    private String mFromStationName;// 起点车站名
+    private String mToStationName;// 终点车站名
 
-    public BaseSubwayMap() {
+    private int mMinTransferTimes;// 起始到终点线路的最少换乘次数
+
+    public SearchSubwayMap() {
         mLstHeads = new ArrayList<>();
         mLineDao = new LineDao();
         mStationDao = new StationDao();
@@ -93,7 +97,7 @@ public abstract class BaseSubwayMap implements ISubwayMap {
         List<String[]> mLstTransferRouteLineIds;// 换乘路线ID
         boolean[] isVisited;// 表示线路是否被访问过
 
-        public LineMap() {
+        LineMap() {
             mStack = new Stack<>();
             mLstTransferRouteLineIds = new ArrayList<>();
             isVisited = new boolean[SubwayData.LINE_EDGES.length];
@@ -104,7 +108,7 @@ public abstract class BaseSubwayMap implements ISubwayMap {
          *
          * @return 换乘路线详细信息
          */
-        public List<String[]> getTransferRouteLineIds() {
+        List<String[]> getTransferRouteLineIds() {
             return mLstTransferRouteLineIds;
         }
 
@@ -113,7 +117,7 @@ public abstract class BaseSubwayMap implements ISubwayMap {
          *
          * @param lstFromToLineIds 起点终点线路集合
          */
-        public void searchTransferRouteLineIds(final List<String[]> lstFromToLineIds) {
+        void searchTransferRouteLineIds(final List<String[]> lstFromToLineIds) {
             for (String[] lids : lstFromToLineIds) {
 //                Log.d("lids---", lids[0] + " : " + lids[1] + lids.length);
                 int from = getIndexOfLinesTransferEdges(lids[0]);
@@ -124,9 +128,10 @@ public abstract class BaseSubwayMap implements ISubwayMap {
 
         /**
          * 深度优先搜索
+         * 栈里放换乘方案，（改：添加对换乘次数的判定）
          *
-         * @param from 起点线路在LINES_TRANSFER_EDGES数组的下标
-         * @param to   终点线路在LINES_TRANSFER_EDGES数组的下标
+         * @param from 起点线路在换乘表数组的下标
+         * @param to   终点线路在换乘表数组的下标
          *             需要注意14号线分为AB段
          */
         private void DFS(final int from, final int to) {
@@ -144,9 +149,9 @@ public abstract class BaseSubwayMap implements ISubwayMap {
                 isVisited[from] = true;
                 for (int i = 0; i < SubwayData.LINE_EDGES.length; i++) {
                     if (!isVisited[i]
-                            && (i != SubwayData.LINE_EDGES.length - 1) //机场线不能换乘
+                            && (i != SubwayData.LINE_EDGES.length - 1) // 机场线不能换乘
                             && SubwayData.LINE_TRANSFERS[from][i] == 1
-                            && mStack.size() < mMinTransferTimes) {
+                            && mStack.size() < mMinTransferTimes) { // 不能加等于，终点站还有一次换乘
                         DFS(i, to);
                     }
                 }
@@ -162,7 +167,6 @@ public abstract class BaseSubwayMap implements ISubwayMap {
      * @param toStationName   终点站
      * @return 换乘结果
      */
-    @Override
     public TransferDetail search(String fromStationName, String toStationName) {
         mFromStationName = fromStationName;
         mToStationName = toStationName;
@@ -177,15 +181,10 @@ public abstract class BaseSubwayMap implements ISubwayMap {
 
         // 起点终点线路集合,注意判断14号线AB段和机场线
         List<String[]> lstFromToLineIds = getFromToLineIds(lstFromStationIds, lstToStationIds);
-        if (LogUtil.DEBUG) {
-            LogUtil.d("lstFromToLineIds = " + AppUtil.ListArrayAsString(lstFromToLineIds));
-        }
-
+        LogUtil.d("lstFromToLineIds = " + AppUtil.ListArrayAsString(lstFromToLineIds));
         // 起点到终点换乘路线详细信息
         List<String[]> lstTransferRouteLineIds = getFromToTransferRouteLineIds(lstFromToLineIds);
-        if (LogUtil.DEBUG) {
-            LogUtil.d("lstTransferRouteLineIds = " + AppUtil.ListArrayAsString(lstTransferRouteLineIds));
-        }
+        LogUtil.d("lstTransferRouteLineIds = " + AppUtil.ListArrayAsString(lstTransferRouteLineIds));
 
         // 遍历所有起点到终点换乘路线详细信息，搜索换乘信息
         TransferDetail transferDetail = new TransferDetail();
@@ -193,7 +192,7 @@ public abstract class BaseSubwayMap implements ISubwayMap {
         transferDetail.toStationName = mToStationName;
         transferDetail.lstTransferRoute = new ArrayList<>();
         for (String[] lids : lstTransferRouteLineIds) {
-            // 构建临接表建图
+            // 构建临接表建图,需要传入ID最小的车站ID建图
             createSubwayMap(lids, lstFromStationIds.get(0), lstToStationIds.get(0));
             LogUtil.d("mLstHeads = " + mLstHeads);
             // 从图中搜索两点之间最短距离
@@ -215,7 +214,7 @@ public abstract class BaseSubwayMap implements ISubwayMap {
      * @param lstToStationIds   终点车站ID集合
      * @return 线路集合
      */
-    protected List<String[]> getFromToLineIds(final List<String> lstFromStationIds, final List<String> lstToStationIds) {
+    private List<String[]> getFromToLineIds(final List<String> lstFromStationIds, final List<String> lstToStationIds) {
         boolean isAddAirportLine = false;
 
         // 起点或终点车站是T2或T3航站楼时加载机场线
@@ -252,7 +251,7 @@ public abstract class BaseSubwayMap implements ISubwayMap {
                 if (SubwayData.LINE_TRANSFERS[i][j] < mMinTransferTimes) {
                     lstFromToLineIds.clear();
                     lstFromToLineIds.add(new String[]{fromLineId, toLineId});
-                    LogUtil.d("transfer--",fromLineId + "--" + toLineId);
+                    LogUtil.d("transfer--", fromLineId + "--" + toLineId);
                     mMinTransferTimes = SubwayData.LINE_TRANSFERS[i][j];
                 } else if (SubwayData.LINE_TRANSFERS[i][j] == mMinTransferTimes) {
                     lstFromToLineIds.add(new String[]{fromLineId, toLineId});
@@ -264,29 +263,12 @@ public abstract class BaseSubwayMap implements ISubwayMap {
     }
 
     /**
-     * 获取起点到终点换乘路线详细信息，例如：09-01-02
-     *
-     * @param lstFromToLineIds 起点终点线路集合
-     * @return 起点到终点线路换乘详细集合
-     */
-    protected abstract List<String[]> getFromToTransferRouteLineIds(final List<String[]> lstFromToLineIds);
-
-    /**
-     * 根据换乘路线信息加载换乘数据，例如：加载TRANSFER表中01,02,09号线换乘数据
-     *
-     * @param transferRouteLineIds 换乘路线详细信息
-     * @param fromStationId        起点车站ID，取所有相同车站名的车站ID的最小值
-     * @param toStationId          终点车站ID，取所有相同车站名的车站ID的最小值
-     */
-    protected abstract void createSubwayMap(final String[] transferRouteLineIds, final String fromStationId, final String toStationId);
-
-    /**
      * 获取线路ID的LINES_TRANSFER_EDGES数组下标，14号线分为AB段
      *
      * @param lineId 线路ID
      * @return 数组下标，即线路在LINES_TRANSFER数组的下标
      */
-    protected int getIndexOfLinesTransferEdges(final String lineId) {
+    private int getIndexOfLinesTransferEdges(final String lineId) {
         for (int i = 0; i < SubwayData.LINE_EDGES.length; i++) {
             if (lineId.equals(SubwayData.LINE_EDGES[i])) {
                 return i;
@@ -301,7 +283,7 @@ public abstract class BaseSubwayMap implements ISubwayMap {
      * @param lstStationIds 车站ID集合
      * @return 线路集合
      */
-    protected List<String> getLineIdsFromStationIds(final List<String> lstStationIds) {
+    private List<String> getLineIdsFromStationIds(final List<String> lstStationIds) {
         List<String> lstLineIds = new ArrayList<>();
         for (String sid : lstStationIds) {
             final String lid = sid.substring(0, 2);
@@ -329,7 +311,7 @@ public abstract class BaseSubwayMap implements ISubwayMap {
      * @param lineId        Head->Item所在线路ID
      * @param distance      Head->Item之间的距离
      */
-    protected void addHeadAndItems(final String fromStationId, final String toStationId, final String lineId, final int distance) {
+    private void addHeadAndItems(final String fromStationId, final String toStationId, final String lineId, final int distance) {
         Item item = new Item(toStationId, lineId, distance);
         for (Head head : mLstHeads) {
             if (head.sid.equals(fromStationId)) {
@@ -349,7 +331,7 @@ public abstract class BaseSubwayMap implements ISubwayMap {
      * @param fromStationId Head部
      * @param toStationId   Item部
      */
-    protected void delHeadAndItems(final String fromStationId, final String toStationId) {
+    private void delHeadAndItems(final String fromStationId, final String toStationId) {
         for (Head head : mLstHeads) {
             if (head.sid.equals(fromStationId)) {
                 for (Item item : head.lstItems) {
@@ -372,7 +354,7 @@ public abstract class BaseSubwayMap implements ISubwayMap {
      * @param targetLineId    插入的车站线路ID
      * @param targetStationId 插入的车站ID
      */
-    protected void insertStationToSubwayMap(final String targetLineId, final String targetStationId) {
+    private void insertStationToSubwayMap(final String targetLineId, final String targetStationId) {
         // 获取普通车站的临接车站，List长度为2，表示[from,to]
         List<String> lstAdjacentStationIds = mLineDao.getAdjacentStationIds(targetStationId);
 
@@ -407,14 +389,14 @@ public abstract class BaseSubwayMap implements ISubwayMap {
      * @param smallerStationId 插入的车站ID较小值
      * @param largerStationId  插入的车站ID较大值
      */
-    protected void insertStationToSubwayMap(final String targetLineId, final String smallerStationId, final String largerStationId) {
+    private void insertStationToSubwayMap(final String targetLineId, final String smallerStationId, final String largerStationId) {
         // 获取普通车站的临接车站，List长度为2，表示[from,to]
         List<String> lstAdjacentStationIds = mLineDao.getAdjacentStationIds(smallerStationId);
 
-        // 获取[from,to]车站ID的最小值，即地铁图中的车站ID
+        // 获取[from,to]车站ID的最小值
         final String fromMapStationId = mStationDao.getMapStationId(lstAdjacentStationIds.get(0));
         final String toMapStationId = mStationDao.getMapStationId(lstAdjacentStationIds.get(1));
-        // 获取[from,to]的线路车站ID，即SubwayMap中的车站ID
+        // 获取[from,to]的在对应线路的线路车站ID
         final String fromLineStationId = mStationDao.getLineStationId(targetLineId, fromMapStationId);
         final String toLineStationId = mStationDao.getLineStationId(targetLineId, toMapStationId);
 
@@ -449,7 +431,7 @@ public abstract class BaseSubwayMap implements ISubwayMap {
      * @param toStationId   终点车站ID
      * @return From-To换乘路线
      */
-    protected TransferRoute searchTransferRoute(final String fromStationId, final String toStationId) {
+    private TransferRoute searchTransferRoute(final String fromStationId, final String toStationId) {
         final int size = mLstHeads.size();// SubwayMap中结点总数，即车站总数
         int[] distance = new int[size];// From车站到各车站的距离
         int[] previous = new int[size];// 各车站的前驱车站索引值
@@ -539,7 +521,7 @@ public abstract class BaseSubwayMap implements ISubwayMap {
      * @param toIndex   To在mLstHeads列表的索引
      * @return From-To站间距离，如果From-To不可达，则返回Integer.MAX_VALUE
      */
-    protected int getFromToDistanceByHeadIndex(final int fromIndex, final int toIndex) {
+    private int getFromToDistanceByHeadIndex(final int fromIndex, final int toIndex) {
         final String toStationId = mLstHeads.get(toIndex).sid;
         for (Item item : mLstHeads.get(fromIndex).lstItems) {
             if (toStationId.equals(item.sid)) {
@@ -556,7 +538,7 @@ public abstract class BaseSubwayMap implements ISubwayMap {
      * @param toIndex   To在mLstHeads列表的索引
      * @return From-To站所在线路ID，如果From-To不可达，返回空字符串""
      */
-    protected String getFromToLineIdByHeadIndex(final int fromIndex, final int toIndex) {
+    private String getFromToLineIdByHeadIndex(final int fromIndex, final int toIndex) {
         final String toStationId = mLstHeads.get(toIndex).sid;
         for (Item item : mLstHeads.get(fromIndex).lstItems) {
             if (toStationId.equals(item.sid)) {
@@ -573,7 +555,7 @@ public abstract class BaseSubwayMap implements ISubwayMap {
      * @param size path数组的实际长度
      * @return 换乘路线
      */
-    protected TransferRoute generateTransferRoute(final int[] path, final int size) {
+    private TransferRoute generateTransferRoute(final int[] path, final int size) {
         // path为D-B-C-A，逆向遍历获得A-C-B-D
         String curLineId = "";
         List<TransferSubRoute> lstTransferSubRoute = new ArrayList<>();
@@ -636,7 +618,7 @@ public abstract class BaseSubwayMap implements ISubwayMap {
      *
      * @param lstTransferSubRoutes 换乘子线路集合
      */
-    protected void updateTransferSubRoutes(final List<TransferSubRoute> lstTransferSubRoutes) {
+    private void updateTransferSubRoutes(final List<TransferSubRoute> lstTransferSubRoutes) {
         for (TransferSubRoute subRoute : lstTransferSubRoutes) {
             final String lineId = subRoute.lineName;
             final String fromLineStationId = mStationDao.getLineStationId(lineId, subRoute.fromStationName);
@@ -698,7 +680,7 @@ public abstract class BaseSubwayMap implements ISubwayMap {
      * @param transferDetail 换乘详情(包含多条换乘线路)
      * @param transferRoute  换乘线路
      */
-    protected void updateTransferDetail(TransferDetail transferDetail, TransferRoute transferRoute) {
+    private void updateTransferDetail(TransferDetail transferDetail, TransferRoute transferRoute) {
         int insertIndex = 0;
         boolean hasSameRoute = false;
         for (TransferRoute route : transferDetail.lstTransferRoute) {
@@ -719,4 +701,164 @@ public abstract class BaseSubwayMap implements ISubwayMap {
             transferDetail.lstTransferRoute.remove(transferDetail.lstTransferRoute.size() - 1);
         }
     }
+
+
+    /**
+     * 获取起点到终点换乘路线详细信息，例如：09-01-02
+     *
+     * @param lstFromToLineIds 起点终点线路集合
+     * @return 起点到终点线路换乘详细集合
+     */
+    private List<String[]> getFromToTransferRouteLineIds(final List<String[]> lstFromToLineIds) {
+        List<String[]> lstTransferRouteLineIds;
+        if (mMinTransferTimes == 0) {
+            // 起点终点在同一线路
+            lstTransferRouteLineIds = new ArrayList<>();
+            if (lstFromToLineIds.size() == 1) {
+                final String lineId = lstFromToLineIds.get(0)[0];
+                lstTransferRouteLineIds.add(new String[]{lineId});
+                // 线路存在环路时特殊，考虑添加横穿线路减少乘车时间
+                if (SubwayUtil.isLineExistLoop(lineId)) {
+                    for (String lid : SubwayUtil.getCrossLineIds(lineId)) {
+                        lstTransferRouteLineIds.add(new String[]{lineId, lid});
+                    }
+                }
+            } else {
+                // 添加每一条线路ID(from和to所在的线路ID相同)
+                for (String[] fromToLineIds : lstFromToLineIds) {
+                    String lineId = fromToLineIds[0];
+                    lstTransferRouteLineIds.add(new String[]{lineId});
+                    // 线路存在环路
+                    if (SubwayUtil.isLineExistLoop(lineId)) {
+                        for (String lid : SubwayUtil.getCrossLineIds(lineId)) {
+                            lstTransferRouteLineIds.add(new String[]{lineId, lid});
+                        }
+                    }
+                }
+            }
+        } else if (mMinTransferTimes == 1) {
+            // 换乘一次，例如：9号线-1号线
+            lstTransferRouteLineIds = new ArrayList<>(lstFromToLineIds);
+
+            // 添加起点终点线路换乘一次的共有线路，如：09-01-02
+            for (String[] fromToLineIds : lstFromToLineIds) {
+                final int from = getIndexOfLinesTransferEdges(fromToLineIds[0]);
+                final int to = getIndexOfLinesTransferEdges(fromToLineIds[1]);
+                List<String> fromDirectTransferLineIds = new ArrayList<>();
+                List<String> toDirectTransferLineIds = new ArrayList<>();
+                for (int i = 0; i < SubwayData.LINE_EDGES.length; i++) {
+                    if (SubwayData.LINE_TRANSFERS[from][i] == 1) {
+                        fromDirectTransferLineIds.add(SubwayData.LINE_EDGES[i]);
+                    }
+                    if (SubwayData.LINE_TRANSFERS[to][i] == 1) {
+                        toDirectTransferLineIds.add(SubwayData.LINE_EDGES[i]);
+                    }
+                }
+                // 起点和终点换乘一次的线路取交集
+                fromDirectTransferLineIds.retainAll(toDirectTransferLineIds);
+                for (String lid : fromDirectTransferLineIds) {
+                    // 需要去除机场线，机场换乘太贵了
+                    if (!lid.equals(SubwayData.LINE_99)) {
+                        lstTransferRouteLineIds.add(new String[]{fromToLineIds[0], lid, fromToLineIds[1]});
+                    }
+                }
+            }
+
+        } else {
+            // 起点终点不在同一线路
+            LineMap lineMap = new LineMap();
+            mMinTransferTimes += 1;
+            lineMap.searchTransferRouteLineIds(lstFromToLineIds);
+            lstTransferRouteLineIds = new ArrayList<>(lineMap.getTransferRouteLineIds());
+        }
+        return lstTransferRouteLineIds;
+    }
+
+    /**
+     * 根据换乘路线信息加载换乘数据，例如：加载TRANSFER表中01,02,09号线换乘数据
+     *
+     * @param transferRouteLineIds 换乘路线详细信息
+     * @param fromStationId        起点车站ID，取所有相同车站名的车站ID的最小值
+     * @param toStationId          终点车站ID，取所有相同车站名的车站ID的最小值
+     */
+    private void createSubwayMap(final String[] transferRouteLineIds, final String fromStationId, final String toStationId) {
+        // 清空临接表的数据
+        if (!AppUtil.IsListEmpty(mLstHeads)) {
+            mLstHeads.clear();
+        }
+        // 起点终点是否是普通车站及所在线路ID
+        boolean fromIsOrdinaryStation = mStationDao.isOrdinaryStation(fromStationId);
+        boolean toIsOrdinaryStation = mStationDao.isOrdinaryStation(toStationId);
+
+        String fromStationLineId = transferRouteLineIds[0];
+        // 如果起点终点在同一线路，toStationLineId取值与fromStationLineId相同，否则取终点
+        String toStationLineId = mMinTransferTimes == 0 ? fromStationLineId : transferRouteLineIds[transferRouteLineIds.length - 1];
+
+        //TODO 逻辑可能有错误
+        // 如果起点终点均为普通车站，且在同一线路，且具有相同的区间(两车站之间没有换乘车站)，则只加载此路线
+        if (fromIsOrdinaryStation // 普通车站
+                && toIsOrdinaryStation // 普通车站
+                && fromStationLineId.equals(toStationLineId) //同一线路
+                && mLineDao.isFromToStationInSameInterval(fromStationId, toStationId)) {
+            // 添加线路换乘信息
+            List<Transfer> lstTransfer = mTransferDao.getLineTransfers(fromStationLineId);
+            for (Transfer transfer : lstTransfer) {
+                //双向添加
+                addHeadAndItems(transfer.FromSID, transfer.ToSID, transfer.LID, transfer.Distance);
+                addHeadAndItems(transfer.ToSID, transfer.FromSID, transfer.LID, transfer.Distance);
+            }
+            // 插入相同换乘区间的车站
+            if (fromStationId.compareTo(toStationId) < 0) {
+                insertStationToSubwayMap(fromStationLineId.substring(0, 2), fromStationId, toStationId);
+            } else {
+                insertStationToSubwayMap(fromStationLineId.substring(0, 2), toStationId, fromStationId);
+            }
+        } else {
+            // 如果存在机场线，添加机场线换乘信息
+            String[] newTransferRouteLineIds = new String[transferRouteLineIds.length];
+            for (int i = 0; i < transferRouteLineIds.length; i++) {
+                if (transferRouteLineIds[i].equals(SubwayData.LINE_99)) {
+                    // 机场线东直门至三元桥是双向的，其余为单向
+                    final List<Transfer> lstTransfer = mTransferDao.getLineTransfers(SubwayData.LINE_99);
+                    for (int j = 0; j < lstTransfer.size(); j++) {
+                        Transfer transfer = lstTransfer.get(j);
+                        if (j == 0) {
+                            addHeadAndItems(transfer.FromSID, transfer.ToSID, transfer.LID, transfer.Distance);
+                            addHeadAndItems(transfer.ToSID, transfer.FromSID, transfer.LID, transfer.Distance);
+                        } else {
+                            addHeadAndItems(transfer.FromSID, transfer.ToSID, transfer.LID, transfer.Distance);
+                        }
+                    }
+                    // 不再查询机场线
+                    newTransferRouteLineIds[i] = "";
+                } else {
+                    // 处理14线AB段
+                    newTransferRouteLineIds[i] = transferRouteLineIds[i].substring(0, 2);
+                }
+            }
+            // 查询其余线路换乘信息(不包括机场线)
+            List<Transfer> lstTransfer = mTransferDao.getLinesTransfers(newTransferRouteLineIds);
+            for (Transfer transfer : lstTransfer) {
+                addHeadAndItems(transfer.FromSID, transfer.ToSID, transfer.LID, transfer.Distance);
+                addHeadAndItems(transfer.ToSID, transfer.FromSID, transfer.LID, transfer.Distance);
+            }
+            // 如何起点线路或终点线路为八通线时，[四惠-四惠东]换车信息添加了两次，需删除一条
+            if (!fromStationLineId.equals(toStationLineId)
+                    && (fromStationLineId.equals(SubwayData.LINE_94) || toStationLineId.equals(SubwayData.LINE_94))) {
+                delHeadAndItems(SubwayData.STATION_ID_SIHUI, SubwayData.STATION_ID_SIHUIDONG);
+                delHeadAndItems(SubwayData.STATION_ID_SIHUIDONG, SubwayData.STATION_ID_SIHUI);
+            }
+            // 如果起点为普通车站，向地铁图插入车站
+            if (fromIsOrdinaryStation) {
+                LogUtil.d("insertStationToSubwayMap{" + fromStationLineId + "," + fromStationId + "}");
+                insertStationToSubwayMap(fromStationLineId.substring(0, 2), fromStationId);
+            }
+            // 如果终点为普通车站，向地铁图插入车站
+            if (toIsOrdinaryStation) {
+                LogUtil.d("insertStationToSubwayMap{" + toStationLineId + "," + toStationId + "}");
+                insertStationToSubwayMap(toStationLineId.substring(0, 2), toStationId);
+            }
+        }
+    }
+
 }

@@ -24,12 +24,8 @@ public class SubwayApplication extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
-
-        // 版本升级则拷贝数据库
+        // 拷贝数据库
         initDataBase();
-        // 初始化缓存目录
-        CacheManager.getInstance().initCacheDir();
-
     }
 
     /**

@@ -2,14 +2,12 @@
       xmlns:app="http://schemas.android.com/apk/res-auto"
       xmlns:tools="http://schemas.android.com/tools"
       tools:context=".SearchActivity">
+
     <item
-        android:id="@+id/action_about_me"
+        android:id="@+id/action_line"
         android:orderInCategory="100"
-        android:title="@string/action_about_me"
+        android:title="线路查看"
+        android:icon="@drawable/ic_subway"
         app:showAsAction="never" />
-    <item
-        android:id="@+id/action_clear_cache"
-        android:orderInCategory="100"
-        android:title="@string/action_clear_cache"
-        app:showAsAction="never" />
+
 </menu>

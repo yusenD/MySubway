@@ -5,6 +5,10 @@
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
 
+    <color name="sort_btn_pressed">#3F51B5</color>
+
+    <color name="cut_line">#92A6A6</color>
+
     <color name="search_btn_search_pressed">#007EB3</color>
     <color name="search_btn_search_normal">#0097D5</color>
     <color name="search_popwin_line_selected">#51AB72</color>

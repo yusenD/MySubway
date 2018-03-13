@@ -29,10 +29,9 @@ import com.dsunny.common.ViewHolder;
 import com.dsunny.database.StationDao;
 import com.dsunny.database.bean.Station;
 import com.dsunny.common.AppConstants;
-import com.dsunny.engine.AppHttpRequest;
-import com.dsunny.engine.MultiSubwayMap;
-import com.dsunny.engine.interfaces.ISubwayMap;
-import com.dsunny.network.entity.Sentence;
+import com.dsunny.network.AppHttpRequest;
+import com.dsunny.search.SearchSubwayMap;
+import com.dsunny.network.bean.Sentence;
 import com.dsunny.subway.R;
 import com.dsunny.util.AppUtil;
 import com.dsunny.util.StringUtil;
@@ -70,7 +69,7 @@ public class SearchActivity extends AppBaseActivity implements View.OnClickListe
     private List<String> mLstStationNamesAndAbbrs;
 
     private StationDao mStationDao;
-    private ISubwayMap mMultiSubwayMap;
+    private SearchSubwayMap mSubwayMap;
 
     private Toolbar mTbSearch;
     private Button mBtnSelectFromStation, mBtnSelectToStation, mBtnSearch;
@@ -84,7 +83,7 @@ public class SearchActivity extends AppBaseActivity implements View.OnClickListe
     @Override
     protected void initVariables() {
         mStationDao = new StationDao();
-        mMultiSubwayMap = new MultiSubwayMap();
+        mSubwayMap = new SearchSubwayMap();
 
         mLstLineNames = new ArrayList<>();
         mLstStationNames = new ArrayList<>();
@@ -216,7 +215,7 @@ public class SearchActivity extends AppBaseActivity implements View.OnClickListe
         final String fromStationName = mEtFromStation.getText().toString().trim();
         final String toStationName = mEtToStation.getText().toString().trim();
         if (verifyFromToStation(fromStationName, toStationName)) {
-            TransferDetail transferDetail = mMultiSubwayMap.search(fromStationName, toStationName);
+            TransferDetail transferDetail = mSubwayMap.search(fromStationName, toStationName);
             Intent intent = new Intent();
             intent.putExtra(AppConstants.KEY_TRANSFER_DETAIL, transferDetail);
             startAppActivity(AppConstants.ACTIVITY_DETAIL, intent);
@@ -327,6 +326,7 @@ public class SearchActivity extends AppBaseActivity implements View.OnClickListe
             mPopWin.showAsDropDown(clickButton);
             mPopWin.update();
         }
+
     }
 
     /**
@@ -338,7 +338,7 @@ public class SearchActivity extends AppBaseActivity implements View.OnClickListe
         private List<String> mLineNames;
         private int mSelectedPosition;
 
-        public LineAdapter(Context context, List<String> lineNames) {
+        LineAdapter(Context context, List<String> lineNames) {
             mContext = context;
             mLineNames = lineNames;
             mSelectedPosition = 0;
@@ -378,11 +378,11 @@ public class SearchActivity extends AppBaseActivity implements View.OnClickListe
             return convertView;
         }
 
-        public int getSelectedPosition() {
+        int getSelectedPosition() {
             return mSelectedPosition;
         }
 
-        public void setSelectedPosition(final int selectedPosition) {
+        void setSelectedPosition(final int selectedPosition) {
             this.mSelectedPosition = selectedPosition;
         }
     }
@@ -395,7 +395,7 @@ public class SearchActivity extends AppBaseActivity implements View.OnClickListe
         private Context mContext;
         private List<String> mStationNames;
 
-        public StationAdapter(Context context, List<String> stationNames) {
+        StationAdapter(Context context, List<String> stationNames) {
             mContext = context;
             mStationNames = stationNames;
         }

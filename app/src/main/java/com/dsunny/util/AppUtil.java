@@ -13,11 +13,17 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import com.dsunny.activity.bean.TransferDetail;
+import com.dsunny.activity.bean.TransferRoute;
 import com.dsunny.common.AppConstants;
+import com.dsunny.common.SubwayData;
 import com.infrastructure.util.BaseUtil;
 
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -148,6 +154,88 @@ public class AppUtil extends BaseUtil {
         }
         sb.append("}");
         return sb.toString();
+    }
+
+    public static class SortSubwayMap {
+
+        private int type;
+
+        public SortSubwayMap(int type) {
+            this.type = type;
+        }
+
+        public List<TransferRoute> sortRouteList(List<TransferRoute> list) {
+            List<TransferRoute> newTransferRoute = new ArrayList<>();
+            TransferRoute minData = list.get(0);
+
+            switch (type){
+                case SubwayData.TRANSFER_SORT:
+                    while(!list.isEmpty()){
+                        int i;
+                        for (i = 0; i < list.size(); i++) {
+                            if (list.get(i).lstTransferSubRoute.size() < minData.lstTransferSubRoute.size()) {
+                                minData = list.get(i);
+                            }
+                        }
+                        newTransferRoute.add(minData);
+                        list.remove(i);
+                    }
+                case SubwayData.TOTAL_SORT:
+                    while(!list.isEmpty()){
+                        int i;
+                        for (i = 0;i<list.size();i++) {
+                            if ((list.get(i).elapsedTime + list.get(i).lstTransferSubRoute.size() * 5) < (minData.elapsedTime + list.get(i).lstTransferSubRoute.size() * 5)) {
+                                minData = list.get(i);
+                            }
+                        }
+                        newTransferRoute.add(minData);
+                        list.remove(i);
+                    }
+                case SubwayData.TIME_SORT:
+                    int i;
+                    while(!list.isEmpty()){
+                        for (i = 0;i<list.size();i++) {
+                            if (list.get(i).elapsedTime < minData.elapsedTime) {
+                                minData = list.get(i);
+                            }
+                        }
+                        newTransferRoute.add(minData);
+                        list.remove(i);
+                    }
+                default:
+
+            }
+
+            return newTransferRoute;
+        }
+
+    }
+
+
+    public static class SubwayMapComp implements Comparator<TransferRoute> {
+
+        private int type;
+
+        public SubwayMapComp(int type) {
+            this.type = type;
+        }
+
+        @Override
+        public int compare(TransferRoute lhs, TransferRoute rhs) {
+
+            switch (type){
+                case SubwayData.TRANSFER_SORT:
+                    return lhs.lstTransferSubRoute.size() - rhs.lstTransferSubRoute.size();
+                case SubwayData.TOTAL_SORT:
+                    return (lhs.elapsedTime + lhs.lstTransferSubRoute.size() * 5) - (rhs.elapsedTime + rhs.lstTransferSubRoute.size() * 5);
+                case SubwayData.TIME_SORT:
+                    return lhs.elapsedTime - rhs.elapsedTime;
+                default:
+                    return 0;
+            }
+
+
+        }
     }
 
 }

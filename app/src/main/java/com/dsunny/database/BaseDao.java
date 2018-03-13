@@ -74,66 +74,6 @@ public class BaseDao {
     }
 
     /**
-     * 查询Bean
-     *
-     * @param sql    SQL文
-     * @param tClass Bean的实体类
-     * @param <T>    Bean的实体类
-     * @return 查询结果(Bean)
-     */
-    protected <T> T queryBean(String sql, Class<T> tClass) {
-        T t = null;
-
-        Cursor c = db.query(sql);
-        try {
-            if (c.moveToFirst()) {
-                int count = c.getColumnCount();
-                t = tClass.newInstance();
-                for (int i = 0; i < count; i++) {
-                    Field field = t.getClass().getField(c.getColumnName(i));
-                    if (field != null) {
-                        if (field.getGenericType().toString().equals("class java.lang.String")) {
-                            field.set(t, c.getString(i));
-                        } else if (field.getGenericType().toString().equals("int")
-                                || field.getGenericType().toString().equals("class java.lang.Integer")) {
-                            field.set(t, c.getInt(i));
-                        }
-                    }
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        LogUtil.d(LogUtil.TAG_SQL, sql);
-        LogUtil.d(LogUtil.TAG_SQL, t == null ? "" : t.toString());
-
-        c.close();
-        return t;
-    }
-
-    /**
-     * 查询List<Integer>
-     *
-     * @param sql SQL文
-     * @return 查询结果(List<Integer>)
-     */
-    protected List<Integer> queryListInt(String sql) {
-        List<Integer> results = new ArrayList<>();
-
-        Cursor c = db.query(sql);
-        while (c.moveToNext()) {
-            results.add(c.getInt(0));
-        }
-
-        LogUtil.d(LogUtil.TAG_SQL, sql);
-        LogUtil.d(LogUtil.TAG_SQL, results.toString());
-
-        c.close();
-        return results;
-    }
-
-    /**
      * 查询List<String>
      *
      * @param sql SQL文
