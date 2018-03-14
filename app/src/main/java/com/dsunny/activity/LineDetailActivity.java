@@ -31,7 +31,7 @@ public class LineDetailActivity extends BaseActivity {
     protected void initVariables() {
         mLineInfoDao = new LineInfoDao();
         String lid = getIntent().getStringExtra(AppConstants.KEY_LINE_DETAIL);
-        Log.e("---", lid);
+//        Log.e("---", lid);
         lstLineInfo = mLineInfoDao.getLineInfo(lid);
     }
 
@@ -73,8 +73,10 @@ public class LineDetailActivity extends BaseActivity {
         return true;
     }
 
+    /**
+     * 线路adapter
+     */
     private class LineDetailAdapter extends BaseQuickAdapter<LineInfo, BaseViewHolder> {
-
 
         public LineDetailAdapter(int layoutResId, @Nullable List<LineInfo> data) {
             super(layoutResId, data);

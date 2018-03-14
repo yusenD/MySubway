@@ -74,7 +74,7 @@ public class SearchActivity extends AppBaseActivity implements View.OnClickListe
     private Toolbar mTbSearch;
     private Button mBtnSelectFromStation, mBtnSelectToStation, mBtnSearch;
     private EditText mEtFromStation, mEtToStation;
-
+    //每日一句
     private ImageView ivPicture;
     private TextView tvContent, tvNote;
 

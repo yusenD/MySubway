@@ -12,6 +12,8 @@ import java.util.List;
  * Subway数据库常量
  */
 public class SubwayData {
+//    //线路数
+//    public static final int maxLine = 19;
     // 1号线
     public static final String LINE_01 = "01";
     // 2号线
@@ -139,6 +141,19 @@ public class SubwayData {
     public static final int TOTAL_SORT = 1;
     //用时最少
     public static final int TIME_SORT = 2;
+
+//    public void floydBuildMap() {
+//        for (int i=0;i<maxLine;i++) {
+//            for (int j=i+1;j<maxLine;j++) {
+//                for (int k=0;k<maxLine;k++) {
+//                    if (lineTransfers[i][j] > (lineTransfers[i][k] + lineTransfers[k + j])) {
+//                        lineTransfers[i][j] = lineTransfers[i][k] + lineTransfers[k + j];
+//                        lineTransfers[j][i] = lineTransfers[i][k] + lineTransfers[k + j];
+//                    }
+//                }
+//            }
+//        }
+//    }
 
     //界面测试用数据，从1号线苹果园到二号线车公庄，转乘车站是复兴门
     public static TransferDetail getTestTranferDetail(){

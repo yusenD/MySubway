@@ -135,22 +135,6 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
         return true;
     }
 
-    @Override
-    public void onClick(View v) {
-        View stationView = (View) v.getTag();
-        FrameLayout flTransfer = (FrameLayout) v.getParent();
-        //展开中间换乘车站View
-        if (stationView.isShown()) {
-            flTransfer.findViewById(R.id.btn_expand).setVisibility(View.VISIBLE);
-            flTransfer.findViewById(R.id.btn_collapse).setVisibility(View.GONE);
-            stationView.setVisibility(View.GONE);
-        } else {
-            flTransfer.findViewById(R.id.btn_expand).setVisibility(View.GONE);
-            flTransfer.findViewById(R.id.btn_collapse).setVisibility(View.VISIBLE);
-            stationView.setVisibility(View.VISIBLE);
-        }
-    }
-
     /**
      * 排序
      *
@@ -159,6 +143,7 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
     public void reSortTransferLine(int keyword) {
         delView();
         AppUtil.SubwayMapComp comp = new AppUtil.SubwayMapComp(keyword);
+        AppUtil.SortSubwayMap sort = new AppUtil.SortSubwayMap(keyword);
         Collections.sort(mTransferDetail.lstTransferRoute, comp);
         addViews();
     }
@@ -301,6 +286,22 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
         tvTansfer.setText(getString(R.string.detail_tansfer, tsr.lineName, tsr.direction));
 
         return view;
+    }
+
+    @Override
+    public void onClick(View v) {
+        View stationView = (View) v.getTag();
+        FrameLayout flTransfer = (FrameLayout) v.getParent();
+        //展开中间换乘车站View
+        if (stationView.isShown()) {
+            flTransfer.findViewById(R.id.btn_expand).setVisibility(View.VISIBLE);
+            flTransfer.findViewById(R.id.btn_collapse).setVisibility(View.GONE);
+            stationView.setVisibility(View.GONE);
+        } else {
+            flTransfer.findViewById(R.id.btn_expand).setVisibility(View.GONE);
+            flTransfer.findViewById(R.id.btn_collapse).setVisibility(View.VISIBLE);
+            stationView.setVisibility(View.VISIBLE);
+        }
     }
 
     /**

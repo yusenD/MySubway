@@ -25,13 +25,14 @@ import java.util.List;
  */
 public class LineActivity extends BaseActivity {
 
-    private List<String> lstLineName = new ArrayList<>();
+    private List<String> lstLineName;
     private LineAdapter mLineAdapter;
     private RecyclerView rvLine;
     private Toolbar mTbLine;
 
     @Override
     protected void initVariables() {
+        lstLineName = new ArrayList<>();
         lstLineName.addAll(Arrays.asList(SubwayData.LINE_NAMES_SEARSH));
     }
 

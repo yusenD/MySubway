@@ -1,6 +1,5 @@
 package com.dsunny.activity.base;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -8,15 +7,12 @@ import android.view.MenuItem;
 import com.dsunny.common.AppConstants;
 import com.dsunny.subway.R;
 import com.infrastructure.activity.BaseActivity;
-import com.infrastructure.cache.CacheManager;
 import com.infrastructure.request.RequestCallback;
 
 /**
  * 封装
  */
 public abstract class AppBaseActivity extends BaseActivity {
-
-    protected ProgressDialog mProgressDialog;
 
     @Override
     protected void onResume() {
@@ -39,16 +35,10 @@ public abstract class AppBaseActivity extends BaseActivity {
 
         @Override
         public void onFail(String errorMsg) {
-            if (mProgressDialog != null && mProgressDialog.isShowing()) {
-                mProgressDialog.dismiss();
-            }
         }
 
         @Override
         public void onCookieExpired() {
-            if (mProgressDialog != null && mProgressDialog.isShowing()) {
-                mProgressDialog.dismiss();
-            }
         }
 
     }
@@ -103,4 +93,5 @@ public abstract class AppBaseActivity extends BaseActivity {
         }
         return true;
     }
+
 }

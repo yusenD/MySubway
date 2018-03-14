@@ -161,7 +161,7 @@ public class AppUtil extends BaseUtil {
         private int type;
 
         public SortSubwayMap(int type) {
-            this.type = type;
+            this.type = 0;
         }
 
         public List<TransferRoute> sortRouteList(List<TransferRoute> list) {
@@ -180,6 +180,7 @@ public class AppUtil extends BaseUtil {
                         newTransferRoute.add(minData);
                         list.remove(i);
                     }
+                    break;
                 case SubwayData.TOTAL_SORT:
                     while(!list.isEmpty()){
                         int i;
@@ -191,6 +192,7 @@ public class AppUtil extends BaseUtil {
                         newTransferRoute.add(minData);
                         list.remove(i);
                     }
+                    break;
                 case SubwayData.TIME_SORT:
                     int i;
                     while(!list.isEmpty()){
@@ -202,8 +204,9 @@ public class AppUtil extends BaseUtil {
                         newTransferRoute.add(minData);
                         list.remove(i);
                     }
+                    break;
                 default:
-
+                    break;
             }
 
             return newTransferRoute;
